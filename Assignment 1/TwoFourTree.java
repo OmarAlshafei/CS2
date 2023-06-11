@@ -127,7 +127,7 @@ public class TwoFourTree {
                 root.parent.centerLeftChild = newRoot.leftChild;                
                 root.parent.leftChild = 
                 newRoot.leftChild = root.leftChild;
-                root.parent.leftChild = root.value1
+                root.parent.leftChild = root.value1;
                 root.leftChild.parent = root;                
                 root = root.leftChild;
                 addValue(value);
@@ -136,7 +136,7 @@ public class TwoFourTree {
                 if (root.rightChild == null){
                     TwoFourTreeItem newRoot = new TwoFourTreeItem(value);
                     int x = root.value2;
-                    root.parent
+                    root.parent;
                     return false;
                 }
                 root.rightChild.parent = root;                
@@ -155,7 +155,7 @@ public class TwoFourTree {
             }
             else if (value > root.value1 && value > root.value2 && value < root.value3){
                 if (root.centerRightChild == null){
-                    TwoFourTreeItem newRoot = new TwoFourTreeItem(value);
+                    TwoFourTreeItem newRoot = new TwoFourTreeItem(root.value2);
                     root = newRoot;                    
                     return false;
                 }
