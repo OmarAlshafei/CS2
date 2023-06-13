@@ -1,5 +1,5 @@
 
-public class TwoFourTree {
+public class test {
     private class TwoFourTreeItem {
         int values = 1;
         int value1 = 0;                             // always exists.
@@ -273,7 +273,7 @@ public class TwoFourTree {
             if(root != null) root.printInOrder(0);
         }
 
-        public TwoFourTree() {
+        public test() {
         
         }
 }
