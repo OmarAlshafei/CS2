@@ -3,13 +3,14 @@ public class App {
     TwoFourTree tft = new TwoFourTree();
     tft.addValue(1);
 
-    tft.addValue(4); 
+    tft.addValue(24); 
+
+    tft.addValue(6); 
 
     tft.addValue(3); 
 
-    tft.addValue(2); 
 
-
+    
     tft.printInOrder();
     }
 }

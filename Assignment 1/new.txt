@@ -97,21 +97,19 @@ public class TwoFourTree {
     public void splitRoot() {
         
         if (isRoot()) {
-            TwoFourTreeItem newRoot = new TwoFourTreeItem(value2);
-            TwoFourTreeItem leftChild = new TwoFourTreeItem(value1);
-            TwoFourTreeItem rightChild = new TwoFourTreeItem(value3);
-            leftChild.parent = newRoot;
-            rightChild.parent = newRoot;
-            newRoot.leftChild = leftChild;
-            newRoot.rightChild = rightChild;
-            
-            root = newRoot;
+            root = new TwoFourTreeItem(value2);
+            leftChild = new TwoFourTreeItem(value1);
+            rightChild = new TwoFourTreeItem(value3);
+            root.leftChild = leftChild;
+            root.rightChild = rightChild;
+            root.leftChild.parent = root;
+            root.rightChild.parent = root;
         }
     }
-    public void split() {
+    private TwoFourTreeItem split(TwoFourTreeItem newNode) {
     
         int b = value2;
-    
+        
         parent.orderVals(b);
         TwoFourTreeItem newChildL = new TwoFourTreeItem(value1);
         TwoFourTreeItem newChildR = new TwoFourTreeItem(value3);
@@ -159,6 +157,7 @@ public class TwoFourTree {
                 parent.centerRightChild = newChildR;
             }
         }
+        return newNode;
     }
         
     }
@@ -171,85 +170,102 @@ public class TwoFourTree {
             return true;
         }
         
-        if (!hasValue(value)) {
-            if (root.isFourNode()){
-                
+        if (hasValue(value) == false) {
+            
+            if (!root.isFourNode())
+                root.orderVals(value);
+            
+            else{
                 if (root.isRoot()){
                     root.splitRoot();
                     root.isLeaf = false;
                 }
+                
                 else{
-                    root.split();
-                    root.isLeaf = false;
+                    while (!root.isLeaf)
+
+                    root.split(root);
+                    root.orderVals(value);
+
                 }
             }
-            else {
-                root.orderVals(value);
-            }
             
-
             return true;
+
         }
         
         return false;
     }
-
+    
+    
         public boolean hasValue(int value) {
+            
+            if (root == null)
+                return false;
         
-        if (root == null)
-            return false;
-        
-
-        TwoFourTreeItem node = root;
-        while (node != null) {
-
-            if (node.isFourNode()) {
+            
+            if (root.isFourNode()) {
+                root.split(root);
+                /* 
                 if (value == node.value1 || value == node.value2 || value == node.value3)
-                    return true;
-                    
-                else if (value < node.value1) 
-                    node = node.leftChild;
-                    
-                else if (value > node.value3)
-                    node = node.rightChild;
-                    
-                else if (value < node.value3 && value > node.value2)
-                    node = node.centerRightChild;
-                    
-                else if (value > node.value1 && value < node.value2)
-                    node = node.centerLeftChild;
-                node.split();
-            } 
-            
-            else if (node.isThreeNode()) {
-                if (value == node.value1 || value == node.value2) 
-                    return true;
+                return true;
                 
-                else if (value < node.value1) 
-                    node = node.leftChild;
+            else if (value < node.value1 && node.leftChild != null) 
+                node = node.leftChild;
                     
-                else if (value > node.value2) 
-                    node = node.rightChild;
-                else
-                    node = node.centerChild;
+            else if (value > node.value3 && node.rightChild != null)
+                node = node.rightChild;
                     
-            } 
-            
-            else {
-                if (value == node.value1) 
-                    return true;
+            else if (value < node.value3 && value > node.value2 && node.centerRightChild != null)
+                node = node.centerRightChild;
+                    
+            else if (value > node.value1 && value < node.value2 && node.centerLeftChild != null)
+                node = node.centerLeftChild;
                 
-                else if (value < node.value1) 
-                    node = node.leftChild;
-                    
-                else 
-                    node = node.rightChild;
+            else return false;
+            */
+                
+            hasValue(value);
             }
             
+            else if (root.isThreeNode()) {
+                if (value == root.value1 || value == root.value2) 
+                    return true;
+                
+                else if (value < root.value1 && !root.isLeaf) 
+                    root = root.leftChild;
+                    
+                else if (value > root.value2 && !root.isLeaf) 
+                    root = root.rightChild;
+                    
+                else if (value > root.value1 && !root.isLeaf) 
+                    root = root.centerChild;
+                    
+                else return false;
+
+                    
+                hasValue(value);
+            } 
+                
+            else if (root.isTwoNode()) {
+                if (value == root.value1) 
+                    return true;
+                    
+                else if (value < root.value1 && !root.isLeaf) 
+                    root = root.leftChild;
+                    
+                else if (value < root.value1 && !root.isLeaf) 
+                    root = root.rightChild;
+                
+                else return false;
+                    
+                hasValue(value);
+            }
+            
+                return false;
+            
         }
-        
-        return false;
-    }
+
     
 
         public boolean deleteValue(int value) {
