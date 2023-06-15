@@ -1,4 +1,3 @@
-
 public class TwoFourTree {
     private class TwoFourTreeItem {
         int values = 1;
@@ -13,7 +12,7 @@ public class TwoFourTree {
         TwoFourTreeItem centerChild = null;         // center child exists iff the node is a non-leaf 3-node.
         TwoFourTreeItem centerLeftChild = null;     // center-left and center-right children exist iff the node is a non-leaf 4-node.
         TwoFourTreeItem centerRightChild = null;
-        
+
         public boolean isTwoNode() {
             return (values == 1);
         }
@@ -69,167 +68,178 @@ public class TwoFourTree {
             }
             if(!isLeaf) rightChild.printInOrder(indent + 1);
         }
+
         
-        public void orderValues(int newValue){
+        public void orderValues(int newValue) {
+            if(root == null || isFourNode())
+                return; 
+                           
             TwoFourTreeItem temp = root;
-                if (isThreeNode()) {
-                    if (newValue < value1)
+            if (isThreeNode()){
+                if (newValue < value1 && newValue < value2)
                     temp = new TwoFourTreeItem(newValue, value1, value2);
-                    
-                    else if (newValue > value2) 
+                else if (newValue > value1 && newValue > value2)
                     temp = new TwoFourTreeItem(value1, value2, newValue);
-                    
-                    else 
+                else
                     temp = new TwoFourTreeItem(value1, newValue, value2);
-                }
-                if (isTwoNode()) {
-                    if (newValue < value1)
-                        temp = new TwoFourTreeItem(newValue, value1);
-                    else 
-                        temp = new TwoFourTreeItem(value1, newValue);
-                }   
-                value1 = temp.value1;
-                value2 = temp.value2;
-                value3 = temp.value3;
-                values = temp.values;
+            } 
+            else if (isTwoNode()){
+                if (newValue < value1)
+                    temp = new TwoFourTreeItem(newValue, value1);
+                else
+                    temp = new TwoFourTreeItem(value1, newValue);
+            } 
+            values = temp.values;
+            value1 = temp.value1;
+            value2 = temp.value2;
+            value3 = temp.value3;
         }
-            
+
+                    
         public void splitRoot() {
-            
-            if (isRoot()) {
-                TwoFourTreeItem newRoot = new TwoFourTreeItem(value2);
-                TwoFourTreeItem leftChild = new TwoFourTreeItem(value1);
-                TwoFourTreeItem rightChild = new TwoFourTreeItem(value3);
-                leftChild.parent = newRoot;
-                rightChild.parent = newRoot;
-                newRoot.leftChild = leftChild;
-                newRoot.rightChild = rightChild;
-                root = newRoot;
-            }
+            TwoFourTreeItem newRoot = root;
+            newRoot = new TwoFourTreeItem(value2);
+            TwoFourTreeItem leftChild = new TwoFourTreeItem(value1);
+            TwoFourTreeItem rightChild = new TwoFourTreeItem(value3);
+            leftChild.parent = root;
+            rightChild.parent = root;
+            newRoot.leftChild = leftChild;
+            newRoot.rightChild = rightChild;
+            newRoot.centerChild = null;
+            newRoot.centerRightChild= null;
+            newRoot.centerLeftChild = null;
+            newRoot.parent = null;
+            newRoot.isLeaf = false;
+            root = newRoot;
         }
+        
         public boolean searchValue(int value) {
-                
+                    
             if (root == null)
                 return false;
-                        
+                            
             if (root.isFourNode()) {
                 if (value == root.value1 || value == root.value2 || value == root.value3)
                     return true;
-                    
+                        
                 else if (value < root.value1 && leftChild != null) 
                     return leftChild.searchValue(value);
-                        
+                            
                 else if (value > root.value3 && rightChild != null)
                     return rightChild.searchValue(value);
-                        
+                            
                 else if (value < value3 && value > value2 && centerRightChild != null)
                     return centerRightChild.searchValue(value);
-                        
+                            
                 else if (value > value1 && value < value2 && centerLeftChild != null)
                     return centerLeftChild.searchValue(value);
-                    
+                        
             }
                 
             else if (isThreeNode()) {
                 if (value == value1 || value == value2) 
                     return true;
-                    
+                        
                 else if (value < value1 && leftChild != null) 
                     return leftChild.searchValue(value);
-                    
+                        
                 else if (value > value2 && rightChild != null) 
                     return rightChild.searchValue(value);
-                
+                    
                 else if (value > value1 && value < value2 && centerChild != null)
                     return centerChild.searchValue(value);
-                    
+                        
             } 
                 
             else if (isTwoNode()) {
                 if (value == value1) 
                     return true;
-                    
+                        
                 else if (value < value1 && leftChild != null) 
                     return leftChild.searchValue(value);
-                    
+                        
                 else if (value > value1 && rightChild != null) 
                     return rightChild.searchValue(value);
-                    
+                        
             }
             return false;
         }
-    
+
+
         public void split() {
-        
             int b = value2;
-            TwoFourTreeItem newParent = root.parent;
-            TwoFourTreeItem newChildL = new TwoFourTreeItem(value1);
-            TwoFourTreeItem newChildR = new TwoFourTreeItem(value3);
+            TwoFourTreeItem newParent = parent;
+            TwoFourTreeItem leftChild = new TwoFourTreeItem(value1);
+            TwoFourTreeItem rightChild = new TwoFourTreeItem(value3);
             newParent.orderValues(b);
-            
-            newChildL.parent = newParent;
-            newChildR.parent = newParent;
-            if (newChildL.leftChild != null)
-                newChildL.leftChild.parent = newChildL;
-            if (newChildL.rightChild != null)
-                newChildL.rightChild.parent = newChildL;
-            if (newChildR.leftChild != null)
-                newChildR.leftChild.parent = newChildR;
-            if (newChildR.rightChild != null)
-                newChildR.rightChild.parent = newChildR;
-            
-            if (root == parent.rightChild) {
-                if (newParent.isTwoNode()) {
-                    newParent.rightChild = newChildR;
-                    newParent.centerChild = newChildL;
-                } 
-                else if (newParent.isThreeNode()) {
-                    newParent.rightChild = newChildR;
-                    newParent.centerRightChild = newChildL;
+
+            if (parent.rightChild == this) {
+                if (parent.isTwoNode()) {
+                    parent.rightChild = rightChild;
+                    parent.centerChild = leftChild;
+                } else if (parent.isThreeNode()) {
+                    parent.rightChild = rightChild;
+                    parent.centerRightChild = leftChild;
                 }
             } 
-            else if (root == newParent.leftChild) {
-                if (newParent.isTwoNode()) {
-                    newParent.leftChild = newChildL;
-                    newParent.centerChild = newChildR;
+            else if (parent.leftChild == this) {
+                if (parent.isTwoNode()) {
+                    parent.leftChild = leftChild;
+                    parent.centerChild = rightChild;
                 } 
-                else if (newParent.isThreeNode()) {
-                    newParent.leftChild = newChildL;
-                    newParent.centerLeftChild = newChildR;
+                else if (parent.isThreeNode()) {
+                    parent.leftChild = leftChild;
+                    parent.centerLeftChild = rightChild;
                 }
             } 
-            else if (root == newParent.centerChild) {
-                if (newParent.isThreeNode()) {
-                    newParent.centerLeftChild = newChildL;
-                    newParent.centerRightChild = newChildR;
+            else if (parent.centerChild == this) {
+                if (parent.isThreeNode()) {
+                    parent.centerLeftChild = leftChild;
+                    parent.centerRightChild = rightChild;
                 }
-            }
+            } 
+            leftChild.leftChild = leftChild;
+            leftChild.rightChild = centerLeftChild;
+            rightChild.leftChild = centerRightChild;
+            rightChild.rightChild = rightChild;
+
+            if(leftChild.leftChild != null)
+                leftChild.leftChild.parent = leftChild;
+            if(leftChild.rightChild != null)
+                leftChild.rightChild.parent = leftChild;
+            if(rightChild.leftChild != null)
+                rightChild.leftChild.parent = rightChild;
+            if(rightChild.rightChild != null)
+                rightChild.rightChild.parent = rightChild;
+            
             root = newParent;
+            
         }
         
         public void insertValue(int value) {
-                            
+
             if (isFourNode()) {
-                    
-                split();
-                    
+                if (root.isRoot()){
+                    root.splitRoot();
+                    root.insertValue(value);
+                }
+                else {
+                    split();
+                    parent.insertValue(value);
+                }
+            }
+            else if(isLeaf)
                 orderValues(value);
 
-            }
-                    
-            else {
-                if(!isLeaf){
-                    if (value < value1) 
-                        leftChild.insertValue(value);
+            else{
+                if (value < value1) 
+                    leftChild.insertValue(value);
                             
-                    else if (value > value2) 
-                        rightChild.insertValue(value);
-                    
-                    else if (value > value1 && value < value2 && isThreeNode())
-                        centerChild.insertValue(value);
-                }
-                else
-                    orderValues(value);
+                else if (value > value1 && value < value2 && isThreeNode())
+                    centerChild.insertValue(value);    
+                                            
+                else if (value > value2) 
+                    rightChild.insertValue(value);
                 
             } 
         }
@@ -246,11 +256,7 @@ public class TwoFourTree {
         
         if (hasValue(value))
             return true;
-            
-        else if (root.isRoot() && root.isFourNode()){
-            root.splitRoot();
-            root.isLeaf = false;
-        }
+
         else
             root.insertValue(value);
         
