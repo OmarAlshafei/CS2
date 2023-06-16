@@ -34,10 +34,35 @@ public class App {
     
     tft.addValue(23);
 
-    tft.addValue(600);
+    tft.addValue(3);
     
+    tft.addValue(913);
     
+    tft.addValue(221);  
     
+    tft.addValue(311);
+    
+    tft.addValue(172);  
+    
+    tft.addValue(9112);
+    
+    tft.addValue(931);
+
+    tft.addValue(743);
+    
+    tft.addValue(651);
+    
+    tft.addValue(42);
+    
+    tft.addValue(671);    
+    
+    tft.addValue(43);
+    
+    tft.addValue(24);
+
+    tft.addValue(35);
+    
+    tft.addValue(9153);
     
     tft.printInOrder();
 
