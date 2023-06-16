@@ -273,7 +273,7 @@ public class TwoFourTree {
     }
     TwoFourTreeItem root = null;
 
-   public boolean addValue(int value) {
+    public boolean addValue(int value) {
         
         if (root == null) {
             root = new TwoFourTreeItem(value);

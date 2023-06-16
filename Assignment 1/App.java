@@ -15,7 +15,7 @@ public class App {
     
     tft.addValue(35);
     
-    tft.addValue(50);
+    tft.addValue(32);
 
 
     tft.printInOrder();
