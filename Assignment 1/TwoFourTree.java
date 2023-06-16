@@ -245,7 +245,11 @@ public class TwoFourTree {
 
         public void insertValue(int value) {
             if (isFourNode()) {
-                split();
+                this.split();
+                if (this.isLeaf)
+                    orderValues(value);
+                else    
+                    this.insertValue(value);
             }
 
             if (isLeaf) {
