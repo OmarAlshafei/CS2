@@ -194,13 +194,12 @@ public class TwoFourTree {
                     rightChild.parent = newRightNode;
                 }
                 
-                value3 = 0;
-                value1 = value2;
-                value1 = 0;
                 values = 1;
                 centerRightChild = null;
                 rightChild = null;
                 parent.merge(this, newRightNode, value2);
+                value3 = 0;
+                value2 = 0;
             }
         }
 
@@ -212,7 +211,6 @@ public class TwoFourTree {
                     rightChild = newChild;
                     centerChild = oldChild;
                 }
-                orderValues(newParentVal);
             } else if (isThreeNode()) {
                 if (oldChild == leftChild) {
                     centerLeftChild = newChild;
@@ -226,8 +224,9 @@ public class TwoFourTree {
                     centerRightChild = leftChild;
                     rightChild = newChild;
                 }
-                orderValues(newParentVal);
+                
             }
+            orderValues(newParentVal);
         }
 
         
@@ -235,7 +234,6 @@ public class TwoFourTree {
         public void insertValue(int value) {
             if (isFourNode()) {
                     split();
-                    insertValue(value);
             }
 
             if (isLeaf) {
@@ -273,9 +271,7 @@ public class TwoFourTree {
         else if (hasValue(value))
             return true;
 
-        else if (root.isRoot() && root.isFourNode())
-            root.splitRoot();
-        
+
             
         root.insertValue(value);
         
