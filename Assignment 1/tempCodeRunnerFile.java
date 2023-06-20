@@ -143,11 +143,11 @@ public class App {
         System.out.println("\nWithout 97:");
         tft.printInOrder();
 
-        executeIntCase(100, 20, false);
-        executeIntCase(1000, 200, false);
-        executeIntCase(10000, 2000, false);
-        executeIntCase(100000, 20000, false);
-        executeIntCase(1000000, 200000, false);
-        executeIntCase(10000000, 2000000, false);
+        executeIntCase(100, 20, true);
+        executeIntCase(1000, 200, true);
+        executeIntCase(10000, 2000, true);
+        executeIntCase(100000, 20000, true);
+        executeIntCase(1000000, 200000, true);
+        executeIntCase(10000000, 2000000, true);
     }
 }
