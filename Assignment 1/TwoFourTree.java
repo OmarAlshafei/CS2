@@ -1,5 +1,3 @@
-import java.time.chrono.IsoChronology;
-
 public class TwoFourTree {
     private class TwoFourTreeItem {
         int values = 1;
@@ -144,46 +142,12 @@ public class TwoFourTree {
             }
             return false;
         }
-        private TwoFourTreeItem splitRoot(){
-            TwoFourTreeItem lChild = new TwoFourTreeItem(value1);
-            TwoFourTreeItem rChild = new TwoFourTreeItem(value3);
-            TwoFourTreeItem newRoot = new TwoFourTreeItem(value2);
 
-            parent = null;
-            value1 = value2;
-            value2 = 0;
-            value3 = 0;
-            values = 1;
-            isLeaf = false;
-                
-            lChild.leftChild = leftChild;
-            lChild.rightChild = centerLeftChild;
-            rChild.leftChild = centerRightChild;
-            rChild.rightChild = rightChild;
-                
-            if (leftChild != null)
-                leftChild.parent = lChild;
-                
-            if (centerLeftChild != null)
-                centerLeftChild.parent = lChild;
-                
-            if (centerRightChild != null)
-                centerRightChild.parent = rChild;
-                    
-            if (rightChild != null) 
-                rightChild.parent = rChild;
-                    
-            lChild.parent = this;
-            rChild.parent = this;
-            leftChild = lChild;
-            rightChild = rChild;
-            centerRightChild = null;
-            return this;
-        }
         
        public TwoFourTreeItem split() {
             TwoFourTreeItem newLeftNode = new TwoFourTreeItem(value1);
             TwoFourTreeItem newRightNode = new TwoFourTreeItem(value3);
+            
             newLeftNode.leftChild = leftChild;
             newLeftNode.rightChild = centerLeftChild;
             newRightNode.leftChild = centerRightChild;
@@ -201,12 +165,23 @@ public class TwoFourTree {
             if (rightChild != null) 
             rightChild.parent = newRightNode;
             
-            newLeftNode.parent = parent;
-            newRightNode.parent = parent;
-            parent.orderValues(value2);
-            parent.merge(this, newLeftNode, newRightNode);
-
-            return parent;
+            if (isRoot()){
+                TwoFourTreeItem newRoot = new TwoFourTreeItem(value2);
+                newRoot.leftChild = newLeftNode;
+                newRoot.rightChild = newRightNode;
+                newLeftNode.parent = newRoot;
+                newRightNode.parent = newRoot;
+                newRoot.isLeaf = false;
+                root = newRoot;
+                return root;
+            }
+            else {
+                newLeftNode.parent = parent;
+                newRightNode.parent = parent;
+                parent.orderValues(value2);
+                parent.merge(this, newLeftNode, newRightNode);
+                return parent;
+            } 
         }
 
         private void merge(TwoFourTreeItem oldNode, TwoFourTreeItem lChild, TwoFourTreeItem rChild) {
@@ -214,8 +189,8 @@ public class TwoFourTree {
                 if (oldNode == leftChild) {
                     leftChild = lChild;
                     centerChild = rChild;
-
-                } else {
+                } 
+                else {
                     rightChild = rChild;
                     centerChild = lChild;
                 }
@@ -226,41 +201,37 @@ public class TwoFourTree {
                     centerLeftChild = rChild;
                     centerRightChild = centerChild;
                     centerChild = null;
-                } else if (oldNode == centerChild) {
+                }
+                else if (oldNode == centerChild) {
                     centerChild = null;
                     centerLeftChild = lChild;
                     centerRightChild = rChild;
-                } else if (oldNode == rightChild){
+                }
+                else if (oldNode == rightChild){
                     rightChild = rChild;
                     centerRightChild = lChild;
                     centerLeftChild = centerChild;
-
                 }
             }
         }
-
-        
 
         public void insertValue(int value) {   
             TwoFourTreeItem node = this;    
               
             if (isFourNode()){
-                if(isRoot())
-                    node = splitRoot();
-                else{
-                    node = split();
+                node = split();
                 
                 if (value > value1 && value > value2 && value > value3)
                     node = node.rightChild;
                 else if (value < value1)
                     node = node.leftChild;
-                else if (value > value1 && value < value2 && isThreeNode())
-                    node = node.centerChild;
                 else if (value > value1 && value < value2 && value < value3)
                     node = node.centerLeftChild;
                 else if (value > value1 && value > value2 && value < value3)
                     node = node.centerRightChild;                
-                }
+                else if (value > value1 && value < value2 && isThreeNode())
+                        node = node.centerChild;
+
             }
                             
             if (isLeaf)
@@ -297,7 +268,7 @@ public class TwoFourTree {
         
         else if (hasValue(value))
             return true;
-            
+
         root.insertValue(value);
         
         return false;
