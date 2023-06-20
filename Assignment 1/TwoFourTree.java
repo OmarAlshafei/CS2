@@ -72,7 +72,7 @@ public class TwoFourTree {
         
         public void orderValues(int newValue) {
                            
-            TwoFourTreeItem temp = null;
+            TwoFourTreeItem temp = this;
             if (isThreeNode()){
                 if (newValue < value1 && newValue < value2)
                     temp = new TwoFourTreeItem(newValue, value1, value2);
@@ -220,18 +220,10 @@ public class TwoFourTree {
               
             if (isFourNode()){
                 node = split();
-                
-                if (value > value1 && value > value2 && value > value3)
-                    node = node.rightChild;
-                else if (value < value1)
+                if (value < node.value1)
                     node = node.leftChild;
-                else if (value > value1 && value < value2 && value < value3)
-                    node = node.centerLeftChild;
-                else if (value > value1 && value > value2 && value < value3)
-                    node = node.centerRightChild;                
-                else if (value > value1 && value < value2 && isThreeNode())
-                        node = node.centerChild;
-
+                else if (value > node.value1)
+                    node = node.rightChild;
             }
                             
             if (isLeaf)

@@ -11,7 +11,7 @@ public class App {
         tft.addValue(13);
         tft.addValue(17);
         tft.addValue(19);
-        //tft.addValue(23);
+        tft.addValue(23);
         //tft.addValue(29);
         //tft.addValue(31);
         //tft.addValue(37);
