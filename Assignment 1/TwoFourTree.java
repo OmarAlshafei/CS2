@@ -220,68 +220,40 @@ public class TwoFourTree {
             }
         }
 
-        public TwoFourTreeItem insertValue(int value) {   
-            TwoFourTreeItem node = this;    
-              
-            if (isFourNode()){
-                
-                node = split();
-                if (isTwoNode()){
-                    if (value < node.value1)
-                        node = node.leftChild;
-                    else if (value > node.value1)
-                        node = node.rightChild;
-                    }
-                    if (isThreeNode()){
-                        if (value < value1)
-                        node = node.leftChild;
-                        
-                        else if (value > value2)
-                        node = node.rightChild;
-                        
-                        else
-                        node = node.centerChild;
-                    }                
-                    if (isFourNode()){
-                        if (value < value1)
-                        node = node.leftChild;
-                        
-                        else if (value > value3)
-                        node = node.rightChild;
-                        
-                        else if (value > value1 && value < value2)
-                        node = node.centerLeftChild;
-                        
-                        else
-                        node = node.centerRightChild;
-                    }                
-                    
-                }
+        public TwoFourTreeItem insertValue(int value) {
+            TwoFourTreeItem node = this;
 
-            if (node.isLeaf){
+            if (isFourNode()) {
+                node = split();
+            }
+
+            if (node.isLeaf) {
                 node.orderValues(value);
                 return node;
+            } else if (isTwoNode()) {
+                if (value < value1)
+                    return node.leftChild.insertValue(value);
+                else
+                    return node.rightChild.insertValue(value);
+            } else if (isThreeNode()) {
+                if (value < value1)
+                    return node.leftChild.insertValue(value);
+                else if (value > value2)
+                    return node.rightChild.insertValue(value);
+                else
+                    return node.centerChild.insertValue(value);
+            } else if (isFourNode()) {
+                if (value < value1)
+                    return node.leftChild.insertValue(value);
+                else if (value > value3)
+                    return node.rightChild.insertValue(value);
+                else if (value > value1 && value < value2)
+                    return node.centerLeftChild.insertValue(value);
+                else
+                    return node.centerRightChild.insertValue(value);
             }
-            
-            else if (isTwoNode()) {
-                    if (value < value1) 
-                        return leftChild.insertValue(value);
-                    else 
-                        return rightChild.insertValue(value);
-                }
-                
-            else if (isThreeNode()) {
-                    if (value < value1)
-                        return leftChild.insertValue(value);
-                        
-                    else if (value > value2)
-                        return rightChild.insertValue(value);
-                        
-                    else
-                        return centerChild.insertValue(value);
-            }
-            else
-                return this;
+
+            return this;
         }
     }
 
