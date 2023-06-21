@@ -280,7 +280,7 @@ public class TwoFourTree {
             root = new TwoFourTreeItem(value);
             return false;
         }
-        if (hasValue(value))
+        else if (!hasValue(value))
             return true;
         else 
             root.insertValue(value);
@@ -288,10 +288,7 @@ public class TwoFourTree {
     }
         
     public boolean hasValue(int value) {
-        if (root.searchValue(value) && root != null)
-            return true;
-        else 
-            return false;
+        return (!root.searchValue(value));
     } 
     
 
