@@ -215,37 +215,40 @@ public class TwoFourTree {
             if (isFourNode()) {
                 node = split();
                 if(node.isFourNode()){
-                    if (value < value1)
-                        node = node.leftChild;
-                    else if (value > value1 && value < value2)
-                        node = node.centerLeftChild;
-                    else if (value > value2 && value < value3)
-                        node = node.centerRightChild;
-                    else if (value > value3)
-                        node = node.rightChild;
+                    node.insertValue(value);
                 }
             }
             if (node.isLeaf) {
                 node.orderValues(value);
                 return node;
             } 
-            else{
-                if (node.isTwoNode()) {
+            if (node.isTwoNode()) {
                     if (value < node.value1)
                         return node.leftChild.insertValue(value);
                     else
                         return node.rightChild.insertValue(value);
-                } 
-                if (node.isThreeNode()) {
+            } 
+            if (node.isThreeNode()) {
                     if (value < value1)
                         return node.leftChild.insertValue(value);
                     else if (value > value2)
                         return node.rightChild.insertValue(value);
                     else
                         return node.centerChild.insertValue(value);
-                } 
+            } 
+            else{
+                if(value < node.value1) 
+                    return node.leftChild; 
+
+                else if(value > node.value3) 
+                    return node.rightChild;
+
+                else if(value < node.value2) 
+                    return node.centerLeftChild;
+
+                else 
+                    return node.centerRightChild;
             }
-            return node;
         }
         
         private TwoFourTreeItem delete(int value){
@@ -280,7 +283,7 @@ public class TwoFourTree {
             root = new TwoFourTreeItem(value);
             return false;
         }
-        else if (!hasValue(value))
+        if (!hasValue(value))
             return true;
         else 
             root.insertValue(value);
