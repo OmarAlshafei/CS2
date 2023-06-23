@@ -274,17 +274,18 @@ public class TwoFourTree {
     public boolean addValue(int value) {
         if (root == null) {
             root = new TwoFourTreeItem(value);
-            return false;
-        }
-        if (!hasValue(value))
             return true;
-        else 
-            root.insertValue(value);
-        return false;
+        }
+        else if (!hasValue(value))
+            return false;
+        else{
+        root.insertValue(value);
+        return true;
+        }
     }
         
     public boolean hasValue(int value) {
-        return (!root.searchValue(value));
+        return !root.searchValue(value);
     } 
     
 
