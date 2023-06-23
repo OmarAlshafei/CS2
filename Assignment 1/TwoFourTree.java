@@ -102,10 +102,10 @@ public class TwoFourTree {
                 else if (value > value3 && rightChild != null)
                     rightChild.searchValue(value);
                             
-                else if (value < value3 && value > value2 && centerRightChild != null)
+                else if (value > value2 && centerRightChild != null)
                     centerRightChild.searchValue(value);
                             
-                else if (value > value1 && value < value2 && centerLeftChild != null)
+                else if (centerLeftChild != null)
                     centerLeftChild.searchValue(value);
             }
             else if (isThreeNode()) {
@@ -118,7 +118,7 @@ public class TwoFourTree {
                 else if (value > value2 && rightChild != null) 
                     rightChild.searchValue(value);
                     
-                else if (value > value1 && value < value2 && centerChild != null)
+                else if (centerChild != null)
                     centerChild.searchValue(value);
             } 
             else if (isTwoNode()) {
@@ -128,7 +128,7 @@ public class TwoFourTree {
                 else if (value < value1 && leftChild != null) 
                     leftChild.searchValue(value);
                         
-                else if (value > value1 && rightChild != null) 
+                else if (rightChild != null) 
                     rightChild.searchValue(value);
             }
             return false;
@@ -211,43 +211,36 @@ public class TwoFourTree {
 
         private TwoFourTreeItem insertValue(int value) {
             TwoFourTreeItem node = this;
-                
-            if (isFourNode()) {
+            if (node.isFourNode()) {
                 node = split();
-                if(node.isFourNode()){
-                    node.insertValue(value);
-                }
             }
             if (node.isLeaf) {
                 node.orderValues(value);
                 return node;
             } 
             if (node.isTwoNode()) {
-                    if (value < node.value1)
-                        return node.leftChild.insertValue(value);
-                    else
-                        return node.rightChild.insertValue(value);
+                if (value < node.value1)
+                    return node.leftChild.insertValue(value);
+                else
+                    return node.rightChild.insertValue(value);
             } 
             if (node.isThreeNode()) {
-                    if (value < value1)
-                        return node.leftChild.insertValue(value);
-                    else if (value > value2)
-                        return node.rightChild.insertValue(value);
-                    else
-                        return node.centerChild.insertValue(value);
-            } 
+                if (value < value1)
+                    return node.leftChild.insertValue(value);
+                else if (value > value2)
+                    return node.rightChild.insertValue(value);
+                else
+                    return node.centerChild.insertValue(value);
+                }
             else{
-                if(value < node.value1) 
-                    return node.leftChild; 
-
-                else if(value > node.value3) 
-                    return node.rightChild;
-
-                else if(value < node.value2) 
-                    return node.centerLeftChild;
-
-                else 
-                    return node.centerRightChild;
+                if (value < node.value1)
+                    return node.leftChild.insertValue(value);
+                else if (value > node.value3)
+                    return node.rightChild.insertValue(value);
+                else if (value > node.value2)
+                    return node.centerRightChild.insertValue(value);
+                else
+                    return node.centerLeftChild.insertValue(value);    
             }
         }
         
