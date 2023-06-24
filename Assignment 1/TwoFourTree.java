@@ -575,7 +575,7 @@ public class TwoFourTree {
                 }
                 else{
                     if(node == node.parent.leftChild){
-                        node.value2 = 2222222;
+                        node.value2 = node.parent.value1;
                         node.value3 = node.parent.centerChild.value1;
                         node.values = 3;
                         node.centerLeftChild = node.rightChild;
@@ -612,6 +612,18 @@ public class TwoFourTree {
                         node.parent.values--;
                     }
                 }
+            }
+            else if (node.parent.isTwoNode()){
+                if(node.parent.leftChild.isLeaf && node.parent.rightChild.isLeaf){
+
+                }
+                if(node == node.parent.leftChild){
+                    
+                }
+
+                else if(node == node.parent.rightChild){
+                        
+                }            
             }
             return node;
         }
