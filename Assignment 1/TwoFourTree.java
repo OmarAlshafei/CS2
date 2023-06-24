@@ -332,7 +332,7 @@ public class TwoFourTree {
                 else if(node == node.parent.centerRightChild && !node.parent.rightChild.isTwoNode()){
                     int pVal = parent.value3;
                     node.value2 = pVal;
-                    node.parent.value3 = node.parent.centerRightChild.value1;
+                    node.parent.value3 = node.parent.rightChild.value1;
                     node.centerChild = node.rightChild;
                     node.rightChild = node.parent.rightChild.leftChild;
                     node.values++;
@@ -390,13 +390,13 @@ public class TwoFourTree {
 
                     // fix L pointers
                     if(node.parent.centerRightChild.isThreeNode()){
-                        node.parent.value3 = node.parent.centerRightChild.value2;
+                        node.parent.value2 = node.parent.centerRightChild.value2;
                         node.parent.centerRightChild.value2 = 0;
                         node.parent.centerRightChild.rightChild = node.parent.leftChild.centerChild;
                         node.parent.centerRightChild.centerChild = null;
                     }
                     if(node.parent.centerRightChild.isFourNode()){
-                        node.parent.value3 = node.parent.leftChild.value3;
+                        node.parent.value3 = node.parent.centerRightChild.value3;
                         node.parent.centerRightChild.value3 = 0;
                         node.parent.centerRightChild.centerChild = node.parent.centerRightChild.centerLeftChild;
                         node.parent.centerRightChild.rightChild = node.parent.centerRightChild.centerRightChild;
@@ -468,7 +468,7 @@ public class TwoFourTree {
                     }
                 }
             }
-            if (node.parent.isThreeNode()){
+            else if (node.parent.isThreeNode()){
                 //rotate anticlockwise
                 if(node == node.parent.leftChild && !node.parent.centerChild.isTwoNode()){
                     int pVal = parent.value1;
@@ -521,7 +521,7 @@ public class TwoFourTree {
                         node.parent.rightChild.centerLeftChild = null;
                         node.parent.rightChild.centerRightChild = null;
                     }
-                    node.parent.centerChild.values--;   
+                    node.parent.rightChild.values--;   
                 }
                 //rotate clockwise
                 else if(node == node.parent.centerChild && !node.parent.leftChild.isTwoNode()){
@@ -575,7 +575,7 @@ public class TwoFourTree {
                 }
                 else{
                     if(node == node.parent.leftChild){
-                        node.value2 = node.parent.value1;
+                        node.value2 = 2222222;
                         node.value3 = node.parent.centerChild.value1;
                         node.values = 3;
                         node.centerLeftChild = node.rightChild;
@@ -617,6 +617,8 @@ public class TwoFourTree {
         }
         private TwoFourTreeItem deleteCases(int value){
             TwoFourTreeItem node = this;
+
+            
             if(node.isLeaf){
                 if (value == node.value1){
                     node.value1 = node.value2;
@@ -651,11 +653,6 @@ public class TwoFourTree {
                         }
                     }
                     node.value1 = temp.value1;
-                    temp.value1 = temp.value2;
-                    temp.value2 = temp.value3;
-                    temp.value3 = 0;
-                    temp.values--;
-
                 }
                 else if (value == node.value2){
                     if (node.isFourNode())
@@ -672,12 +669,7 @@ public class TwoFourTree {
                         }
                     }
                     node.value2 = temp.value1;
-                    temp.value1 = temp.value2;
-                    temp.value2 = temp.value3;
-                    temp.value3 = 0;
-                    temp.values--;
-
-
+                    temp.value1 = value;
                 }
                 else if (value == node.value3){
                     temp = node.rightChild;
@@ -690,21 +682,23 @@ public class TwoFourTree {
                                 break;
                         }
                     }
-                    int n = node.value3;
                     node.value3 = temp.value1;
-                    temp.value1 = n;
-                    temp.value2 = temp.value3;
-                    temp.value3 = 0;
+                    temp.value1 = value;
+                }
+                if (temp.isTwoNode()){
+                    temp = temp.omgTwoNode(value);
+                }
+                if(!temp.isTwoNode()){
+                    temp.value1 = temp.value2;
+                    temp.value2 = 0;
                     temp.values--;
                 }
             }
-            
             return node;
         }
         private TwoFourTreeItem delete(int value){
             TwoFourTreeItem node = this;
-            if (value == value1 || value == value2 || value == value3 && !node.isTwoNode()){
-            System.out.println("VALUE1: " + node.value1 + " VALUE: " + value);
+            if ((value == value1 || value == value2 || value == value3) && !node.isTwoNode()){
                 node = node.deleteCases(value);
                 return node;
             }
@@ -755,7 +749,7 @@ public class TwoFourTree {
             root = new TwoFourTreeItem(value);
             return true;
         }
-        else if (hasValue(value))
+        else if (!hasValue(value))
             return false;
             
         root.insertValue(value);
@@ -766,17 +760,19 @@ public class TwoFourTree {
         if(root == null)
             return false;
         
-        return root.searchValue(value);
+        return !root.searchValue(value);
     } 
     
 
     public boolean deleteValue(int value) {
         if(root == null)
             return false;
-
-
+            
+        if (!hasValue(value))
+            return false;
+            
         root.delete(value);
-        return true;
+        return false;
     }
 
     public void printInOrder() {
