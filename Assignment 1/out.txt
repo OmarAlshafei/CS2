@@ -1,115 +1,371 @@
-Static test: first few prime numbers:
-      2
-    3
-      5
-  7
-      11
-    13
-      17
-19
-      23
-    29
-      31
-  37
-      41
-    43
-      47
-  53
-      59
-    67
-      71
-    73
-      79
-    83
-      89
-      97
+        private TwoFourTreeItem omgTwoNode(int value){
+            TwoFourTreeItem node = this;
 
-Without 37:
-      2
-    3
-      5
-  7
-      11
-    13
-      17
-19
-      23
-    29
-      31
-  41
-      43
-      47
-    53
-      59
-  67
-      71
-    73
-      79
-    83
-      89
-      97
+            if (node.parent.isFourNode()){
+                //rotate anticlockwise
+                if(node == node.parent.leftChild && !node.parent.centerLeftChild.isTwoNode()){
+                    int pVal = parent.value1;
+                    node.value2 = pVal;
+                    node.parent.value1 = node.parent.centerLeftChild.value1;
+                    node.centerChild = node.rightChild;
+                    node.rightChild = node.parent.centerLeftChild.leftChild;
+                    node.values++;
 
-Without 73:
-      2
-    3
-      5
-  7
-      11
-    13
-      17
-19
-      23
-    29
-      31
-  41
-      43
-      47
-    53
-      59
-  67
-      71
-    79
-      83
-    89
-      97
+                    // fix R values
+                    node.parent.centerLeftChild.value1 = node.parent.centerLeftChild.value2;
+                    node.parent.centerLeftChild.value2 = node.parent.centerLeftChild.value3;
+                    node.parent.centerLeftChild.value3 = 0;
 
-Without 97:
-      2
-    3
-      5
-  7
-      11
-    13
-      17
-19
-      23
-    29
-      31
-  41
-      43
-      47
-    53
-      59
-  67
-      71
-    79
-      83
-      89
-CASE:      100 integers,       20 finds,       10 removals.  Generating...
-  TwoFourTree add:       0ms  find:       0ms  del:       0ms  (        9 missing) find:      0ms  (Should be         9 missing)  
-  TreeSet     add:       0ms  find:       0ms  del:       0ms  (        9 missing) find:      0ms  (Should be         9 missing)  
-CASE:    1,000 integers,      200 finds,      100 removals.  Generating...
-  TwoFourTree add:       1ms  find:       0ms  del:       1ms  (       91 missing) find:      0ms  (Should be        91 missing)  
-  TreeSet     add:       0ms  find:       0ms  del:       1ms  (       91 missing) find:      0ms  (Should be        91 missing)  
-CASE:   10,000 integers,    2,000 finds,    1,000 removals.  Generating...
-  TwoFourTree add:       3ms  find:       0ms  del:       2ms  (      910 missing) find:      1ms  (Should be       910 missing)  
-  TreeSet     add:       1ms  find:       0ms  del:       1ms  (      910 missing) find:      0ms  (Should be       910 missing)  
-CASE:  100,000 integers,   20,000 finds,   10,000 removals.  Generating...
-  TwoFourTree add:      13ms  find:       3ms  del:       4ms  (    9,063 missing) find:      3ms  (Should be     9,063 missing)  
-  TreeSet     add:       8ms  find:       2ms  del:       1ms  (    9,063 missing) find:      2ms  (Should be     9,063 missing)  
-CASE: 1,000,000 integers,  200,000 finds,  100,000 removals.  Generating...
-  TwoFourTree add:     153ms  find:      25ms  del:      28ms  (   90,610 missing) find:     24ms  (Should be    90,610 missing)  
-  TreeSet     add:     131ms  find:      20ms  del:      15ms  (   90,610 missing) find:     21ms  (Should be    90,610 missing)  
-CASE: 10,000,000 integers, 2,000,000 finds, 1,000,000 removals.  Generating...
-  TwoFourTree add:   2,140ms  find:     279ms  del:     342ms  (  905,936 missing) find:    283ms  (Should be   905,936 missing)  
-  TreeSet     add:   1,998ms  find:     364ms  del:     209ms  (  905,936 missing) find:    373ms  (Should be   905,936 missing)  
+                    // fix R pointers
+                    if(node.parent.centerLeftChild.isThreeNode()){
+                        node.parent.centerLeftChild.leftChild = node.parent.centerLeftChild.centerChild;
+                        node.parent.centerLeftChild.centerChild = null;
+                    }
+                    if(node.parent.centerLeftChild.isFourNode()){
+                        node.parent.centerLeftChild.leftChild = node.parent.centerLeftChild.centerLeftChild;
+                        node.parent.centerLeftChild.centerChild = node.parent.centerLeftChild.centerRightChild;
+                        node.parent.centerLeftChild.centerLeftChild = null;
+                        node.parent.centerLeftChild.centerRightChild = null;
+                    }
+                    node.parent.centerLeftChild.values--;                
+                }
+                //rotate anticlockwise
+                else if(node == node.parent.centerLeftChild && !node.parent.centerRightChild.isTwoNode()){
+                    int pVal = parent.value2;
+                    node.value2 = pVal;
+                    node.parent.value2 = node.parent.centerRightChild.value1;
+                    node.centerChild = node.rightChild;
+                    node.rightChild = node.parent.centerRightChild.leftChild;
+                    node.values++;
+
+                    // fix R values
+                    node.parent.centerRightChild.value1 = node.parent.centerRightChild.value2;
+                    node.parent.centerRightChild.value2 = node.parent.centerRightChild.value3;
+                    node.parent.centerRightChild.value3 = 0;
+
+                    // fix R pointers
+                    if(node.parent.centerRightChild.isThreeNode()){
+                        node.parent.centerRightChild.leftChild = node.parent.centerRightChild.centerChild;
+                        node.parent.centerRightChild.centerChild = null;
+                    }
+                    if(node.parent.centerRightChild.isFourNode()){
+                        node.parent.centerRightChild.leftChild = node.parent.centerRightChild.centerLeftChild;
+                        node.parent.centerRightChild.centerChild = node.parent.centerRightChild.centerRightChild;
+                        node.parent.centerRightChild.centerLeftChild = null;
+                        node.parent.centerRightChild.centerRightChild = null;
+                    }
+                    node.parent.centerRightChild.values--;   
+                }
+                //rotate clockwise
+                else if(node == node.parent.centerLeftChild && !node.parent.leftChild.isTwoNode()){
+                    int pVal = parent.value1;
+                    node.value2 = pVal;
+                    node.centerChild = node.leftChild;
+                    node.leftChild = node.parent.leftChild.rightChild;
+                    node.values++;
+
+                    // fix L pointers
+                    if(node.parent.leftChild.isThreeNode()){
+                        node.parent.value1 = node.parent.leftChild.value2;
+                        node.parent.leftChild.value2 = 0;
+                        node.parent.leftChild.rightChild = node.parent.leftChild.centerChild;
+                        node.parent.leftChild.centerChild = null;
+                    }
+                    if(node.parent.leftChild.isFourNode()){
+                        node.parent.value1 = node.parent.leftChild.value3;
+                        node.parent.leftChild.value3 = 0;
+                        node.parent.leftChild.centerChild = node.parent.leftChild.centerLeftChild;
+                        node.parent.leftChild.rightChild = node.parent.leftChild.centerRightChild;
+                        node.parent.leftChild.centerLeftChild = null;
+                        node.parent.leftChild.centerRightChild = null;
+                    }
+                    node.parent.leftChild.values--;   
+                }
+                //rotate anticlockwise
+                else if(node == node.parent.centerRightChild && !node.parent.rightChild.isTwoNode()){
+                    int pVal = parent.value3;
+                    node.value2 = pVal;
+                    node.parent.value3 = node.parent.rightChild.value1;
+                    node.centerChild = node.rightChild;
+                    node.rightChild = node.parent.rightChild.leftChild;
+                    node.values++;
+
+                    // fix R values
+                    node.parent.rightChild.value1 = node.parent.rightChild.value2;
+                    node.parent.rightChild.value2 = node.parent.rightChild.value3;
+                    node.parent.rightChild.value3 = 0;
+
+                    // fix R pointers
+                    if(node.parent.rightChild.isThreeNode()){
+                        node.parent.rightChild.leftChild = node.parent.rightChild.centerChild;
+                        node.parent.rightChild.centerChild = null;
+                    }
+                    if(node.parent.rightChild.isFourNode()){
+                        node.parent.rightChild.leftChild = node.parent.rightChild.centerLeftChild;
+                        node.parent.rightChild.centerChild = node.parent.rightChild.centerRightChild;
+                        node.parent.rightChild.centerLeftChild = null;
+                        node.parent.rightChild.centerRightChild = null;
+                    }
+                    node.parent.rightChild.values--;                   
+                }
+                //rotate clockwise
+                else if(node == node.parent.centerRightChild && !node.parent.centerLeftChild.isTwoNode()){
+                    int pVal = parent.value2;
+                    node.value2 = pVal;
+                    node.centerChild = node.leftChild;
+                    node.leftChild = node.parent.centerLeftChild.rightChild;
+                    node.values++;
+
+                    // fix L pointers
+                    if(node.parent.centerLeftChild.isThreeNode()){
+                        node.parent.value2 = node.parent.centerLeftChild.value2;
+                        node.parent.centerLeftChild.value2 = 0;
+                        node.parent.centerLeftChild.rightChild = node.parent.leftChild.centerChild;
+                        node.parent.centerLeftChild.centerChild = null;
+                    }
+                    if(node.parent.centerLeftChild.isFourNode()){
+                        node.parent.value1 = node.parent.leftChild.value3;
+                        node.parent.centerLeftChild.value3 = 0;
+                        node.parent.centerLeftChild.centerChild = node.parent.centerLeftChild.centerLeftChild;
+                        node.parent.centerLeftChild.rightChild = node.parent.centerLeftChild.centerRightChild;
+                        node.parent.centerLeftChild.centerLeftChild = null;
+                        node.parent.centerLeftChild.centerRightChild = null;
+                    }
+                    node.parent.centerLeftChild.values--;     
+                }
+                //rotate clockwise
+                else if(node == node.parent.rightChild && !node.parent.centerRightChild.isTwoNode()){
+                    int pVal = parent.value3;
+                    node.value2 = pVal;
+                    node.centerChild = node.leftChild;
+                    node.leftChild = node.parent.centerRightChild.rightChild;
+                    node.values++;
+
+                    // fix L pointers
+                    if(node.parent.centerRightChild.isThreeNode()){
+                        node.parent.value2 = node.parent.centerRightChild.value2;
+                        node.parent.centerRightChild.value2 = 0;
+                        node.parent.centerRightChild.rightChild = node.parent.leftChild.centerChild;
+                        node.parent.centerRightChild.centerChild = null;
+                    }
+                    if(node.parent.centerRightChild.isFourNode()){
+                        node.parent.value3 = node.parent.centerRightChild.value3;
+                        node.parent.centerRightChild.value3 = 0;
+                        node.parent.centerRightChild.centerChild = node.parent.centerRightChild.centerLeftChild;
+                        node.parent.centerRightChild.rightChild = node.parent.centerRightChild.centerRightChild;
+                        node.parent.centerRightChild.centerLeftChild = null;
+                        node.parent.centerRightChild.centerRightChild = null;
+                    }
+                    node.parent.centerRightChild.values--;  
+                }
+                else{
+                    if(node == node.parent.leftChild){
+                        node.value2 = node.parent.value1;
+                        node.value3 = node.parent.centerLeftChild.value1;
+                        node.values = 3;
+                        node.centerLeftChild = node.rightChild;
+                        node.centerRightChild = node.parent.centerLeftChild.leftChild;
+                        node.rightChild = node.parent.centerLeftChild.rightChild;
+                        node.parent.centerChild = node.parent.centerRightChild;
+                        node.parent.centerLeftChild = null;
+                        node.parent.centerRightChild = null;
+                        node.parent.value1 = node.parent.value2;
+                        node.parent.value2 = node.parent.value3;
+                        node.parent.value3 = 0;
+                        node.parent.values--;
+                    }
+                    else if(node == node.parent.centerLeftChild){
+                        node.value2 = node.parent.value2;
+                        node.value3 = node.parent.centerRightChild.value1;
+                        node.values = 3;
+                        node.centerLeftChild = node.rightChild;
+                        node.centerRightChild = node.parent.centerRightChild.leftChild;
+                        node.rightChild = node.parent.centerRightChild.rightChild;
+                        node.parent.centerChild = node.parent.centerLeftChild;
+                        node.parent.centerLeftChild = null;
+                        node.parent.centerRightChild = null;
+                        node.parent.value1 = node.parent.value2;
+                        node.parent.value2 = node.parent.value3;
+                        node.parent.value3 = 0;
+                        node.parent.values--;
+                    }
+                    else if(node == node.parent.centerRightChild){
+                        node = node.parent.rightChild;
+                        node.value3 = node.value1;
+                        node.value2 = node.parent.value3;
+                        node.value1 = node.parent.centerRightChild.value1;
+                        node.values = 3;
+                        node.leftChild = node.parent.centerChild.leftChild;
+                        node.centerLeftChild = node.parent.centerChild.rightChild;
+                        node.centerRightChild = node.leftChild;
+                        node.parent.centerChild = node.parent.centerLeftChild;
+                        node.parent.centerLeftChild = null;
+                        node.parent.centerRightChild = null;
+                        node.parent.value3 = 0;
+                        node.parent.values--;
+                    }
+                    else if(node == node.parent.rightChild){
+                        node.value3 = node.value1;
+                        node.value2 = node.parent.value3;
+                        node.value1 = node.parent.centerRightChild.value1;
+                        node.values = 3;
+                        node.leftChild = node.parent.centerChild.leftChild;
+                        node.centerLeftChild = node.parent.centerChild.rightChild;
+                        node.centerRightChild = node.leftChild;
+                        node.parent.centerChild = node.parent.centerLeftChild;
+                        node.parent.centerLeftChild = null;
+                        node.parent.centerRightChild = null;
+                        node.parent.value3 = 0;
+                        node.parent.values--;
+                    }
+                }
+            }
+            else if (node.parent.isThreeNode()){
+                //rotate anticlockwise
+                if(node == node.parent.leftChild && !node.parent.centerChild.isTwoNode()){
+                    int pVal = parent.value1;
+                    node.value2 = pVal;
+                    node.parent.value1 = node.parent.centerChild.value1;
+                    node.centerChild = node.rightChild;
+                    node.rightChild = node.parent.centerChild.leftChild;
+                    node.values++;
+
+                    // fix R values
+                    node.parent.centerChild.value1 = node.parent.centerChild.value2;
+                    node.parent.centerChild.value2 = node.parent.centerChild.value3;
+                    node.parent.centerChild.value3 = 0;
+
+                    // fix R pointers
+                    if(node.parent.centerChild.isThreeNode()){
+                        node.parent.centerChild.leftChild = node.parent.centerChild.centerChild;
+                        node.parent.centerChild.centerChild = null;
+                    }
+                    if(node.parent.centerChild.isFourNode()){
+                        node.parent.centerChild.leftChild = node.parent.centerChild.centerLeftChild;
+                        node.parent.centerChild.centerChild = node.parent.centerChild.centerRightChild;
+                        node.parent.centerChild.centerLeftChild = null;
+                        node.parent.centerChild.centerRightChild = null;
+                    }
+                    node.parent.centerChild.values--;   
+                }
+                //rotate anticlockwise
+                else if(node == node.parent.centerChild && !node.parent.rightChild.isTwoNode()){
+                    int pVal = parent.value2;
+                    node.value2 = pVal;
+                    node.centerChild = node.rightChild;
+                    node.parent.value2 = node.parent.rightChild.value1;
+                    node.rightChild = node.parent.rightChild.leftChild;
+                    node.values++;
+
+                    // fix R values
+                    node.parent.rightChild.value1 = node.parent.rightChild.value2;
+                    node.parent.rightChild.value2 = node.parent.rightChild.value3;
+                    node.parent.rightChild.value3 = 0;
+
+                    // fix R pointers
+                    if(node.parent.rightChild.isThreeNode()){
+                        node.parent.rightChild.leftChild = node.parent.rightChild.centerChild;
+                        node.parent.rightChild.centerChild = null;
+                    }
+                    if(node.parent.rightChild.isFourNode()){
+                        node.parent.rightChild.leftChild = node.parent.rightChild.centerLeftChild;
+                        node.parent.rightChild.centerChild = node.parent.rightChild.centerRightChild;
+                        node.parent.rightChild.centerLeftChild = null;
+                        node.parent.rightChild.centerRightChild = null;
+                    }
+                    node.parent.rightChild.values--;   
+                }
+                //rotate clockwise
+                else if(node == node.parent.centerChild && !node.parent.leftChild.isTwoNode()){
+                    int pVal = parent.value1;
+                    node.value2 = pVal;
+                    node.centerChild = node.leftChild;
+                    node.leftChild = node.parent.leftChild.rightChild;
+                    node.values++;
+
+                    // fix R pointers
+                    if(node.parent.leftChild.isThreeNode()){
+                        node.parent.value1 = node.parent.leftChild.value2;
+                        node.parent.leftChild.value2 = 0;
+                        node.parent.leftChild.rightChild = node.parent.leftChild.centerChild;
+                        node.parent.leftChild.centerChild = null;
+                    }
+                    if(node.parent.leftChild.isFourNode()){
+                        node.parent.value1 = node.parent.leftChild.value3;
+                        node.parent.leftChild.value3 = 0;
+                        node.parent.leftChild.centerChild = node.parent.leftChild.centerLeftChild;
+                        node.parent.leftChild.rightChild = node.parent.leftChild.centerRightChild;
+                        node.parent.leftChild.centerLeftChild = null;
+                        node.parent.leftChild.centerRightChild = null;
+                    }
+                    node.parent.leftChild.values--;  
+                }
+                //rotate clockwise
+                else if(node == node.parent.rightChild && !node.parent.centerChild.isTwoNode()){
+                    int pVal = parent.value2;
+                    node.value2 = pVal;
+                    node.centerChild = node.leftChild;
+                    node.leftChild = node.parent.centerChild.rightChild;
+                    node.values++;
+
+                    // fix R pointers
+                    if(node.parent.centerChild.isThreeNode()){
+                        node.parent.value2 = node.parent.leftChild.value2;
+                        node.parent.centerChild.value2 = 0;
+                        node.parent.centerChild.rightChild = node.parent.centerChild.centerChild;
+                        node.parent.centerChild.centerChild = null;
+                    }
+                    if(node.parent.centerChild.isFourNode()){
+                        node.parent.value2 = node.parent.leftChild.value3;
+                        node.parent.centerChild.value3 = 0;
+                        node.parent.centerChild.centerChild = node.parent.centerChild.centerLeftChild;
+                        node.parent.centerChild.rightChild = node.parent.centerChild.centerRightChild;
+                        node.parent.centerChild.centerLeftChild = null;
+                        node.parent.centerChild.centerRightChild = null;
+                    }
+                    node.parent.centerChild.values--;  
+                }
+                else{
+                    if(node == node.parent.leftChild){
+                        node.value1 = node.parent.leftChild.value1;
+                        node.value2 = node.parent.value1;
+                        node.value3 = node.parent.centerChild.value1;
+                        node.values = 3;
+                        node.centerLeftChild = node.rightChild;
+                        node.centerRightChild = node.parent.centerChild.leftChild;
+                        node.rightChild = node.parent.centerChild.rightChild;
+                        node.parent.centerChild = null;
+                        node.parent.value1 = node.parent.value2;
+                        node.parent.value2 = 0;
+                        node.parent.values--;
+                    }
+                    else if(node == node.parent.centerChild){
+                        node = node.parent.leftChild;
+                        node.value2 = node.parent.value1;
+                        node.value3 = node.parent.centerChild.value1;
+                        node.values = 3;
+                        node.centerLeftChild = node.rightChild;
+                        node.centerRightChild = node.parent.centerChild.leftChild;
+                        node.rightChild = node.parent.centerChild.rightChild;
+                        node.parent.centerChild = null;
+                        node.parent.value1 = node.parent.value2;
+                        node.parent.value2 = 0;
+                        node.parent.values--;
+                    }
+                    else if(node == node.parent.rightChild){
+                        node.value3 = node.value1;
+                        node.value2 = node.parent.value2;
+                        node.value1 = node.parent.centerChild.value1;
+                        node.values = 3;
+                        node.leftChild = node.parent.centerChild.leftChild;
+                        node.centerLeftChild = node.parent.centerChild.rightChild;
+                        node.centerRightChild = node.leftChild;
+                        node.parent.centerChild = null;
+                        node.parent.value2 = 0;
+                        node.parent.values--;
+                    }
+                }
+            }
+
+            return node;
+        }
