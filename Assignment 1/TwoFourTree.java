@@ -616,7 +616,6 @@ public class TwoFourTree {
         }
         private TwoFourTreeItem deleteCases(int value){
             TwoFourTreeItem node = this;
-
             
             if(node.isLeaf){
                 if (value == node.value1){
@@ -701,14 +700,44 @@ public class TwoFourTree {
         }
         private TwoFourTreeItem delete(int value){
             TwoFourTreeItem node = this;
+            if(node.isTwoNode() && !node.isRoot())
+                node = node.omgTwoNode(value);
             
             if ((value == node.value1 || value == node.value2 || value == node.value3)){
-                if(node.isTwoNode())
-                node = node.omgTwoNode(value);
+                    
                 node = node.deleteCases(value);
                 return node;
             }
-            else if (root.isTwoNode() && root.leftChild.isTwoNode() && root.rightChild.isTwoNode() && root.isRoot()) {
+            if (node.isThreeNode()) {
+                if (value < node.value1)
+                    return node.leftChild.delete(value);
+                else if (value > value2)
+                    return node.rightChild.delete(value);
+                else
+                    return node.centerChild.delete(value);
+            }
+            if (node.isFourNode()){
+                if (value < node.value1)
+                    return node.leftChild.delete(value);
+                else if (value > node.value3)
+                    return node.rightChild.delete(value);
+                else if (value > node.value2)
+                    return node.centerRightChild.delete(value);
+                else
+                    return node.centerLeftChild.delete(value);    
+            }
+            else{
+                if (value < node.value1)
+                    return node.leftChild.delete(value);
+                else if (value > node.value3)
+                    return node.rightChild.delete(value);
+                else if (value > node.value2)
+                    return node.centerRightChild.delete(value);
+                else
+                    return node.centerLeftChild.delete(value);    
+            }
+        }
+        private TwoFourTreeItem fixRoot(){
                 root.value2 = root.value1;
                 root.value1 = root.leftChild.value1;
                 root.value3 = root.rightChild.value1;
@@ -722,25 +751,6 @@ public class TwoFourTree {
                 root.rightChild.rightChild.parent = root;
                 root.values = 3;
                 return root;
-            }
-            else if (node.isThreeNode()) {
-                if (value < node.value1)
-                    return node.leftChild.delete(value);
-                else if (value > value2)
-                    return node.rightChild.delete(value);
-                else
-                    return node.centerChild.delete(value);
-            }
-            else{
-                if (value < node.value1)
-                    return node.leftChild.delete(value);
-                else if (value > node.value3)
-                    return node.rightChild.delete(value);
-                else if (value > node.value2)
-                    return node.centerRightChild.delete(value);
-                else
-                    return node.centerLeftChild.delete(value);    
-            }
         }
     }
 
@@ -753,10 +763,10 @@ public class TwoFourTree {
         }
         if(hasValue(value))
             return false;
-        {
+        
         root.insertValue(value);
         return true;
-        }
+        
     }
         
     public boolean hasValue(int value) {
@@ -770,10 +780,12 @@ public class TwoFourTree {
             
         if (!hasValue(value))
             return false;
-        else{
+        
+        if (root.isTwoNode() && root.leftChild.isTwoNode() && root.rightChild.isTwoNode())
+            root = root.fixRoot();
+
         root.delete(value);
         return true;
-        }
     }
 
     public void printInOrder() {
