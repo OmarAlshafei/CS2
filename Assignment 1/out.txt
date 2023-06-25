@@ -1,371 +1,1006 @@
-        private TwoFourTreeItem omgTwoNode(int value){
-            TwoFourTreeItem node = this;
+  TwoFourTree add:       1ms  find:       0ms  ----- After deleting 77814904 from tree
+          2788683
+        10420737
+          10791477
+      13136569
+          22944598
+        34503676
+          44234514
+    110484543
+          46930528
+        82306379
+          82306379
+          82622903
+        87665298
+          90835006
+      110484543
+          118364708
+        123424220
+          158051302
+      160493859
+          161894055
+        169422536
+          189861234
+    215764588
+          239313358
+        242280810
+          249037437
+      252742854
+          257352374
+        258958825
+          271817716
+  272124759
+          279621058
+        300138075
+          304991452
+      311235345
+          327998473
+        336611363
+          338663600
+    339970820
+          342179099
+        342691263
+          345837908
+      367668180
+          382369865
+        394149547
+          396655486
+  401183053
+          406974617
+        408456151
+          414906606
+      417108800
+          440048504
+        442974087
+          443965436
+    446064254
+          467297001
+        467861996
+          491348526
+      492389415
+          500698241
+        513997357
+          526301748
+527049522
+          569416650
+        569548985
+          582624695
+      588558884
+          590622333
+        597694500
+          624342624
+    631482674
+          635683955
+        654713205
+          714504434
+      716422494
+          729213477
+        746289310
+          779313232
+  792426959
+          804553674
+        812182689
+          816031731
+      830200592
+          831614069
+        847227192
+          852925376
+    856420153
+          873039797
+        874970313
+          880641847
+      886411575
+          888202834
+        911064485
+          927727688
+        951791508
+          956251262
+        962720332
+          966836660
+          995036094
+----- After deleting 82306379 from tree
+          2788683
+        10420737
+          10791477
+      13136569
+          22944598
+        34503676
+          44234514
+    110484543
+          46930528
+        82306379
+          82306379
+          82622903
+        87665298
+          90835006
+      110484543
+          118364708
+        123424220
+          158051302
+      160493859
+          161894055
+        169422536
+          189861234
+    215764588
+          239313358
+        242280810
+          249037437
+      252742854
+          257352374
+        258958825
+          271817716
+  272124759
+          279621058
+        300138075
+          304991452
+      311235345
+          327998473
+        336611363
+          338663600
+    339970820
+          342179099
+        342691263
+          345837908
+      367668180
+          382369865
+        394149547
+          396655486
+  401183053
+          406974617
+        408456151
+          414906606
+      417108800
+          440048504
+        442974087
+          443965436
+    446064254
+          467297001
+        467861996
+          491348526
+      492389415
+          500698241
+        513997357
+          526301748
+527049522
+          569416650
+        569548985
+          582624695
+      588558884
+          590622333
+        597694500
+          624342624
+    631482674
+          635683955
+        654713205
+          714504434
+      716422494
+          729213477
+        746289310
+          779313232
+  792426959
+          804553674
+        812182689
+          816031731
+      830200592
+          831614069
+        847227192
+          852925376
+    856420153
+          873039797
+        874970313
+          880641847
+      886411575
+          888202834
+        911064485
+          927727688
+        951791508
+          956251262
+        962720332
+          966836660
+          995036094
+----- After deleting 87665298 from tree
+          2788683
+        10420737
+          10791477
+      13136569
+          22944598
+        34503676
+          44234514
+    110484543
+          46930528
+        82306379
+          82306379
+          82622903
+        87665298
+          90835006
+      110484543
+          118364708
+        123424220
+          158051302
+      160493859
+          161894055
+        169422536
+          189861234
+    215764588
+          239313358
+        242280810
+          249037437
+      252742854
+          257352374
+        258958825
+          271817716
+  272124759
+          279621058
+        300138075
+          304991452
+      311235345
+          327998473
+        336611363
+          338663600
+    339970820
+          342179099
+        342691263
+          345837908
+      367668180
+          382369865
+        394149547
+          396655486
+  401183053
+          406974617
+        408456151
+          414906606
+      417108800
+          440048504
+        442974087
+          443965436
+    446064254
+          467297001
+        467861996
+          491348526
+      492389415
+          500698241
+        513997357
+          526301748
+527049522
+          569416650
+        569548985
+          582624695
+      588558884
+          590622333
+        597694500
+          624342624
+    631482674
+          635683955
+        654713205
+          714504434
+      716422494
+          729213477
+        746289310
+          779313232
+  792426959
+          804553674
+        812182689
+          816031731
+      830200592
+          831614069
+        847227192
+          852925376
+    856420153
+          873039797
+        874970313
+          880641847
+      886411575
+          888202834
+        911064485
+          927727688
+        951791508
+          956251262
+        962720332
+          966836660
+          995036094
+----- After deleting 271817716 from tree
+          2788683
+        10420737
+          10791477
+      13136569
+          22944598
+        34503676
+          44234514
+    110484543
+          46930528
+        82306379
+          82306379
+          82622903
+        87665298
+          90835006
+      110484543
+          118364708
+        123424220
+          158051302
+      160493859
+          161894055
+        169422536
+          189861234
+    215764588
+          239313358
+        242280810
+          249037437
+      252742854
+          257352374
+        258958825
+          0
+  272124759
+          279621058
+        300138075
+          304991452
+      311235345
+          327998473
+        336611363
+          338663600
+    339970820
+          342179099
+        342691263
+          345837908
+      367668180
+          382369865
+        394149547
+          396655486
+  401183053
+          406974617
+        408456151
+          414906606
+      417108800
+          440048504
+        442974087
+          443965436
+    446064254
+          467297001
+        467861996
+          491348526
+      492389415
+          500698241
+        513997357
+          526301748
+527049522
+          569416650
+        569548985
+          582624695
+      588558884
+          590622333
+        597694500
+          624342624
+    631482674
+          635683955
+        654713205
+          714504434
+      716422494
+          729213477
+        746289310
+          779313232
+  792426959
+          804553674
+        812182689
+          816031731
+      830200592
+          831614069
+        847227192
+          852925376
+    856420153
+          873039797
+        874970313
+          880641847
+      886411575
+          888202834
+        911064485
+          927727688
+        951791508
+          956251262
+        962720332
+          966836660
+          995036094
+----- After deleting 338663600 from tree
+          2788683
+        10420737
+          10791477
+      13136569
+          22944598
+        34503676
+          44234514
+    110484543
+          46930528
+        82306379
+          82306379
+          82622903
+        87665298
+          90835006
+      110484543
+          118364708
+        123424220
+          158051302
+      160493859
+          161894055
+        169422536
+          189861234
+    215764588
+          239313358
+        242280810
+          249037437
+      252742854
+          257352374
+        258958825
+          0
+  272124759
+          279621058
+        300138075
+          304991452
+      311235345
+          327998473
+        336611363
+          0
+    339970820
+          342179099
+        342691263
+          345837908
+      367668180
+          382369865
+        394149547
+          396655486
+  401183053
+          406974617
+        408456151
+          414906606
+      417108800
+          440048504
+        442974087
+          443965436
+    446064254
+          467297001
+        467861996
+          491348526
+      492389415
+          500698241
+        513997357
+          526301748
+527049522
+          569416650
+        569548985
+          582624695
+      588558884
+          590622333
+        597694500
+          624342624
+    631482674
+          635683955
+        654713205
+          714504434
+      716422494
+          729213477
+        746289310
+          779313232
+  792426959
+          804553674
+        812182689
+          816031731
+      830200592
+          831614069
+        847227192
+          852925376
+    856420153
+          873039797
+        874970313
+          880641847
+      886411575
+          888202834
+        911064485
+          927727688
+        951791508
+          956251262
+        962720332
+          966836660
+          995036094
 
-            if (node.parent.isFourNode()){
-                //rotate anticlockwise
-                if(node == node.parent.leftChild && !node.parent.centerLeftChild.isTwoNode()){
-                    int pVal = parent.value1;
-                    node.value2 = pVal;
-                    node.parent.value1 = node.parent.centerLeftChild.value1;
-                    node.centerChild = node.rightChild;
-                    node.rightChild = node.parent.centerLeftChild.leftChild;
-                    node.values++;
+Failed to delete 342691263
+----- After deleting 342691263 from tree
+          2788683
+        10420737
+          10791477
+      13136569
+          22944598
+        34503676
+          44234514
+    110484543
+          46930528
+        82306379
+          82306379
+          82622903
+        87665298
+          90835006
+      110484543
+          118364708
+        123424220
+          158051302
+      160493859
+          161894055
+        169422536
+          189861234
+    215764588
+          239313358
+        242280810
+          249037437
+      252742854
+          257352374
+        258958825
+          0
+  272124759
+          279621058
+        300138075
+          304991452
+      311235345
+          327998473
+        336611363
+          0
+    339970820
+          342179099
+        342691263
+          345837908
+      367668180
+          382369865
+        394149547
+          396655486
+  401183053
+          406974617
+        408456151
+          414906606
+      417108800
+          440048504
+        442974087
+          443965436
+    446064254
+          467297001
+        467861996
+          491348526
+      492389415
+          500698241
+        513997357
+          526301748
+527049522
+          569416650
+        569548985
+          582624695
+      588558884
+          590622333
+        597694500
+          624342624
+    631482674
+          635683955
+        654713205
+          714504434
+      716422494
+          729213477
+        746289310
+          779313232
+  792426959
+          804553674
+        812182689
+          816031731
+      830200592
+          831614069
+        847227192
+          852925376
+    856420153
+          873039797
+        874970313
+          880641847
+      886411575
+          888202834
+        911064485
+          927727688
+        951791508
+          956251262
+        962720332
+          966836660
+          995036094
 
-                    // fix R values
-                    node.parent.centerLeftChild.value1 = node.parent.centerLeftChild.value2;
-                    node.parent.centerLeftChild.value2 = node.parent.centerLeftChild.value3;
-                    node.parent.centerLeftChild.value3 = 0;
-
-                    // fix R pointers
-                    if(node.parent.centerLeftChild.isThreeNode()){
-                        node.parent.centerLeftChild.leftChild = node.parent.centerLeftChild.centerChild;
-                        node.parent.centerLeftChild.centerChild = null;
-                    }
-                    if(node.parent.centerLeftChild.isFourNode()){
-                        node.parent.centerLeftChild.leftChild = node.parent.centerLeftChild.centerLeftChild;
-                        node.parent.centerLeftChild.centerChild = node.parent.centerLeftChild.centerRightChild;
-                        node.parent.centerLeftChild.centerLeftChild = null;
-                        node.parent.centerLeftChild.centerRightChild = null;
-                    }
-                    node.parent.centerLeftChild.values--;                
-                }
-                //rotate anticlockwise
-                else if(node == node.parent.centerLeftChild && !node.parent.centerRightChild.isTwoNode()){
-                    int pVal = parent.value2;
-                    node.value2 = pVal;
-                    node.parent.value2 = node.parent.centerRightChild.value1;
-                    node.centerChild = node.rightChild;
-                    node.rightChild = node.parent.centerRightChild.leftChild;
-                    node.values++;
-
-                    // fix R values
-                    node.parent.centerRightChild.value1 = node.parent.centerRightChild.value2;
-                    node.parent.centerRightChild.value2 = node.parent.centerRightChild.value3;
-                    node.parent.centerRightChild.value3 = 0;
-
-                    // fix R pointers
-                    if(node.parent.centerRightChild.isThreeNode()){
-                        node.parent.centerRightChild.leftChild = node.parent.centerRightChild.centerChild;
-                        node.parent.centerRightChild.centerChild = null;
-                    }
-                    if(node.parent.centerRightChild.isFourNode()){
-                        node.parent.centerRightChild.leftChild = node.parent.centerRightChild.centerLeftChild;
-                        node.parent.centerRightChild.centerChild = node.parent.centerRightChild.centerRightChild;
-                        node.parent.centerRightChild.centerLeftChild = null;
-                        node.parent.centerRightChild.centerRightChild = null;
-                    }
-                    node.parent.centerRightChild.values--;   
-                }
-                //rotate clockwise
-                else if(node == node.parent.centerLeftChild && !node.parent.leftChild.isTwoNode()){
-                    int pVal = parent.value1;
-                    node.value2 = pVal;
-                    node.centerChild = node.leftChild;
-                    node.leftChild = node.parent.leftChild.rightChild;
-                    node.values++;
-
-                    // fix L pointers
-                    if(node.parent.leftChild.isThreeNode()){
-                        node.parent.value1 = node.parent.leftChild.value2;
-                        node.parent.leftChild.value2 = 0;
-                        node.parent.leftChild.rightChild = node.parent.leftChild.centerChild;
-                        node.parent.leftChild.centerChild = null;
-                    }
-                    if(node.parent.leftChild.isFourNode()){
-                        node.parent.value1 = node.parent.leftChild.value3;
-                        node.parent.leftChild.value3 = 0;
-                        node.parent.leftChild.centerChild = node.parent.leftChild.centerLeftChild;
-                        node.parent.leftChild.rightChild = node.parent.leftChild.centerRightChild;
-                        node.parent.leftChild.centerLeftChild = null;
-                        node.parent.leftChild.centerRightChild = null;
-                    }
-                    node.parent.leftChild.values--;   
-                }
-                //rotate anticlockwise
-                else if(node == node.parent.centerRightChild && !node.parent.rightChild.isTwoNode()){
-                    int pVal = parent.value3;
-                    node.value2 = pVal;
-                    node.parent.value3 = node.parent.rightChild.value1;
-                    node.centerChild = node.rightChild;
-                    node.rightChild = node.parent.rightChild.leftChild;
-                    node.values++;
-
-                    // fix R values
-                    node.parent.rightChild.value1 = node.parent.rightChild.value2;
-                    node.parent.rightChild.value2 = node.parent.rightChild.value3;
-                    node.parent.rightChild.value3 = 0;
-
-                    // fix R pointers
-                    if(node.parent.rightChild.isThreeNode()){
-                        node.parent.rightChild.leftChild = node.parent.rightChild.centerChild;
-                        node.parent.rightChild.centerChild = null;
-                    }
-                    if(node.parent.rightChild.isFourNode()){
-                        node.parent.rightChild.leftChild = node.parent.rightChild.centerLeftChild;
-                        node.parent.rightChild.centerChild = node.parent.rightChild.centerRightChild;
-                        node.parent.rightChild.centerLeftChild = null;
-                        node.parent.rightChild.centerRightChild = null;
-                    }
-                    node.parent.rightChild.values--;                   
-                }
-                //rotate clockwise
-                else if(node == node.parent.centerRightChild && !node.parent.centerLeftChild.isTwoNode()){
-                    int pVal = parent.value2;
-                    node.value2 = pVal;
-                    node.centerChild = node.leftChild;
-                    node.leftChild = node.parent.centerLeftChild.rightChild;
-                    node.values++;
-
-                    // fix L pointers
-                    if(node.parent.centerLeftChild.isThreeNode()){
-                        node.parent.value2 = node.parent.centerLeftChild.value2;
-                        node.parent.centerLeftChild.value2 = 0;
-                        node.parent.centerLeftChild.rightChild = node.parent.leftChild.centerChild;
-                        node.parent.centerLeftChild.centerChild = null;
-                    }
-                    if(node.parent.centerLeftChild.isFourNode()){
-                        node.parent.value1 = node.parent.leftChild.value3;
-                        node.parent.centerLeftChild.value3 = 0;
-                        node.parent.centerLeftChild.centerChild = node.parent.centerLeftChild.centerLeftChild;
-                        node.parent.centerLeftChild.rightChild = node.parent.centerLeftChild.centerRightChild;
-                        node.parent.centerLeftChild.centerLeftChild = null;
-                        node.parent.centerLeftChild.centerRightChild = null;
-                    }
-                    node.parent.centerLeftChild.values--;     
-                }
-                //rotate clockwise
-                else if(node == node.parent.rightChild && !node.parent.centerRightChild.isTwoNode()){
-                    int pVal = parent.value3;
-                    node.value2 = pVal;
-                    node.centerChild = node.leftChild;
-                    node.leftChild = node.parent.centerRightChild.rightChild;
-                    node.values++;
-
-                    // fix L pointers
-                    if(node.parent.centerRightChild.isThreeNode()){
-                        node.parent.value2 = node.parent.centerRightChild.value2;
-                        node.parent.centerRightChild.value2 = 0;
-                        node.parent.centerRightChild.rightChild = node.parent.leftChild.centerChild;
-                        node.parent.centerRightChild.centerChild = null;
-                    }
-                    if(node.parent.centerRightChild.isFourNode()){
-                        node.parent.value3 = node.parent.centerRightChild.value3;
-                        node.parent.centerRightChild.value3 = 0;
-                        node.parent.centerRightChild.centerChild = node.parent.centerRightChild.centerLeftChild;
-                        node.parent.centerRightChild.rightChild = node.parent.centerRightChild.centerRightChild;
-                        node.parent.centerRightChild.centerLeftChild = null;
-                        node.parent.centerRightChild.centerRightChild = null;
-                    }
-                    node.parent.centerRightChild.values--;  
-                }
-                else{
-                    if(node == node.parent.leftChild){
-                        node.value2 = node.parent.value1;
-                        node.value3 = node.parent.centerLeftChild.value1;
-                        node.values = 3;
-                        node.centerLeftChild = node.rightChild;
-                        node.centerRightChild = node.parent.centerLeftChild.leftChild;
-                        node.rightChild = node.parent.centerLeftChild.rightChild;
-                        node.parent.centerChild = node.parent.centerRightChild;
-                        node.parent.centerLeftChild = null;
-                        node.parent.centerRightChild = null;
-                        node.parent.value1 = node.parent.value2;
-                        node.parent.value2 = node.parent.value3;
-                        node.parent.value3 = 0;
-                        node.parent.values--;
-                    }
-                    else if(node == node.parent.centerLeftChild){
-                        node.value2 = node.parent.value2;
-                        node.value3 = node.parent.centerRightChild.value1;
-                        node.values = 3;
-                        node.centerLeftChild = node.rightChild;
-                        node.centerRightChild = node.parent.centerRightChild.leftChild;
-                        node.rightChild = node.parent.centerRightChild.rightChild;
-                        node.parent.centerChild = node.parent.centerLeftChild;
-                        node.parent.centerLeftChild = null;
-                        node.parent.centerRightChild = null;
-                        node.parent.value1 = node.parent.value2;
-                        node.parent.value2 = node.parent.value3;
-                        node.parent.value3 = 0;
-                        node.parent.values--;
-                    }
-                    else if(node == node.parent.centerRightChild){
-                        node = node.parent.rightChild;
-                        node.value3 = node.value1;
-                        node.value2 = node.parent.value3;
-                        node.value1 = node.parent.centerRightChild.value1;
-                        node.values = 3;
-                        node.leftChild = node.parent.centerChild.leftChild;
-                        node.centerLeftChild = node.parent.centerChild.rightChild;
-                        node.centerRightChild = node.leftChild;
-                        node.parent.centerChild = node.parent.centerLeftChild;
-                        node.parent.centerLeftChild = null;
-                        node.parent.centerRightChild = null;
-                        node.parent.value3 = 0;
-                        node.parent.values--;
-                    }
-                    else if(node == node.parent.rightChild){
-                        node.value3 = node.value1;
-                        node.value2 = node.parent.value3;
-                        node.value1 = node.parent.centerRightChild.value1;
-                        node.values = 3;
-                        node.leftChild = node.parent.centerChild.leftChild;
-                        node.centerLeftChild = node.parent.centerChild.rightChild;
-                        node.centerRightChild = node.leftChild;
-                        node.parent.centerChild = node.parent.centerLeftChild;
-                        node.parent.centerLeftChild = null;
-                        node.parent.centerRightChild = null;
-                        node.parent.value3 = 0;
-                        node.parent.values--;
-                    }
-                }
-            }
-            else if (node.parent.isThreeNode()){
-                //rotate anticlockwise
-                if(node == node.parent.leftChild && !node.parent.centerChild.isTwoNode()){
-                    int pVal = parent.value1;
-                    node.value2 = pVal;
-                    node.parent.value1 = node.parent.centerChild.value1;
-                    node.centerChild = node.rightChild;
-                    node.rightChild = node.parent.centerChild.leftChild;
-                    node.values++;
-
-                    // fix R values
-                    node.parent.centerChild.value1 = node.parent.centerChild.value2;
-                    node.parent.centerChild.value2 = node.parent.centerChild.value3;
-                    node.parent.centerChild.value3 = 0;
-
-                    // fix R pointers
-                    if(node.parent.centerChild.isThreeNode()){
-                        node.parent.centerChild.leftChild = node.parent.centerChild.centerChild;
-                        node.parent.centerChild.centerChild = null;
-                    }
-                    if(node.parent.centerChild.isFourNode()){
-                        node.parent.centerChild.leftChild = node.parent.centerChild.centerLeftChild;
-                        node.parent.centerChild.centerChild = node.parent.centerChild.centerRightChild;
-                        node.parent.centerChild.centerLeftChild = null;
-                        node.parent.centerChild.centerRightChild = null;
-                    }
-                    node.parent.centerChild.values--;   
-                }
-                //rotate anticlockwise
-                else if(node == node.parent.centerChild && !node.parent.rightChild.isTwoNode()){
-                    int pVal = parent.value2;
-                    node.value2 = pVal;
-                    node.centerChild = node.rightChild;
-                    node.parent.value2 = node.parent.rightChild.value1;
-                    node.rightChild = node.parent.rightChild.leftChild;
-                    node.values++;
-
-                    // fix R values
-                    node.parent.rightChild.value1 = node.parent.rightChild.value2;
-                    node.parent.rightChild.value2 = node.parent.rightChild.value3;
-                    node.parent.rightChild.value3 = 0;
-
-                    // fix R pointers
-                    if(node.parent.rightChild.isThreeNode()){
-                        node.parent.rightChild.leftChild = node.parent.rightChild.centerChild;
-                        node.parent.rightChild.centerChild = null;
-                    }
-                    if(node.parent.rightChild.isFourNode()){
-                        node.parent.rightChild.leftChild = node.parent.rightChild.centerLeftChild;
-                        node.parent.rightChild.centerChild = node.parent.rightChild.centerRightChild;
-                        node.parent.rightChild.centerLeftChild = null;
-                        node.parent.rightChild.centerRightChild = null;
-                    }
-                    node.parent.rightChild.values--;   
-                }
-                //rotate clockwise
-                else if(node == node.parent.centerChild && !node.parent.leftChild.isTwoNode()){
-                    int pVal = parent.value1;
-                    node.value2 = pVal;
-                    node.centerChild = node.leftChild;
-                    node.leftChild = node.parent.leftChild.rightChild;
-                    node.values++;
-
-                    // fix R pointers
-                    if(node.parent.leftChild.isThreeNode()){
-                        node.parent.value1 = node.parent.leftChild.value2;
-                        node.parent.leftChild.value2 = 0;
-                        node.parent.leftChild.rightChild = node.parent.leftChild.centerChild;
-                        node.parent.leftChild.centerChild = null;
-                    }
-                    if(node.parent.leftChild.isFourNode()){
-                        node.parent.value1 = node.parent.leftChild.value3;
-                        node.parent.leftChild.value3 = 0;
-                        node.parent.leftChild.centerChild = node.parent.leftChild.centerLeftChild;
-                        node.parent.leftChild.rightChild = node.parent.leftChild.centerRightChild;
-                        node.parent.leftChild.centerLeftChild = null;
-                        node.parent.leftChild.centerRightChild = null;
-                    }
-                    node.parent.leftChild.values--;  
-                }
-                //rotate clockwise
-                else if(node == node.parent.rightChild && !node.parent.centerChild.isTwoNode()){
-                    int pVal = parent.value2;
-                    node.value2 = pVal;
-                    node.centerChild = node.leftChild;
-                    node.leftChild = node.parent.centerChild.rightChild;
-                    node.values++;
-
-                    // fix R pointers
-                    if(node.parent.centerChild.isThreeNode()){
-                        node.parent.value2 = node.parent.leftChild.value2;
-                        node.parent.centerChild.value2 = 0;
-                        node.parent.centerChild.rightChild = node.parent.centerChild.centerChild;
-                        node.parent.centerChild.centerChild = null;
-                    }
-                    if(node.parent.centerChild.isFourNode()){
-                        node.parent.value2 = node.parent.leftChild.value3;
-                        node.parent.centerChild.value3 = 0;
-                        node.parent.centerChild.centerChild = node.parent.centerChild.centerLeftChild;
-                        node.parent.centerChild.rightChild = node.parent.centerChild.centerRightChild;
-                        node.parent.centerChild.centerLeftChild = null;
-                        node.parent.centerChild.centerRightChild = null;
-                    }
-                    node.parent.centerChild.values--;  
-                }
-                else{
-                    if(node == node.parent.leftChild){
-                        node.value1 = node.parent.leftChild.value1;
-                        node.value2 = node.parent.value1;
-                        node.value3 = node.parent.centerChild.value1;
-                        node.values = 3;
-                        node.centerLeftChild = node.rightChild;
-                        node.centerRightChild = node.parent.centerChild.leftChild;
-                        node.rightChild = node.parent.centerChild.rightChild;
-                        node.parent.centerChild = null;
-                        node.parent.value1 = node.parent.value2;
-                        node.parent.value2 = 0;
-                        node.parent.values--;
-                    }
-                    else if(node == node.parent.centerChild){
-                        node = node.parent.leftChild;
-                        node.value2 = node.parent.value1;
-                        node.value3 = node.parent.centerChild.value1;
-                        node.values = 3;
-                        node.centerLeftChild = node.rightChild;
-                        node.centerRightChild = node.parent.centerChild.leftChild;
-                        node.rightChild = node.parent.centerChild.rightChild;
-                        node.parent.centerChild = null;
-                        node.parent.value1 = node.parent.value2;
-                        node.parent.value2 = 0;
-                        node.parent.values--;
-                    }
-                    else if(node == node.parent.rightChild){
-                        node.value3 = node.value1;
-                        node.value2 = node.parent.value2;
-                        node.value1 = node.parent.centerChild.value1;
-                        node.values = 3;
-                        node.leftChild = node.parent.centerChild.leftChild;
-                        node.centerLeftChild = node.parent.centerChild.rightChild;
-                        node.centerRightChild = node.leftChild;
-                        node.parent.centerChild = null;
-                        node.parent.value2 = 0;
-                        node.parent.values--;
-                    }
-                }
-            }
-
-            return node;
-        }
+Failed to delete 417108800
+----- After deleting 417108800 from tree
+          2788683
+        10420737
+          10791477
+      13136569
+          22944598
+        34503676
+          44234514
+    110484543
+          46930528
+        82306379
+          82306379
+          82622903
+        87665298
+          90835006
+      110484543
+          118364708
+        123424220
+          158051302
+      160493859
+          161894055
+        169422536
+          189861234
+    215764588
+          239313358
+        242280810
+          249037437
+      252742854
+          257352374
+        258958825
+          0
+  272124759
+          279621058
+        300138075
+          304991452
+      311235345
+          327998473
+        336611363
+          0
+    339970820
+          342179099
+        342691263
+          345837908
+      367668180
+          382369865
+        394149547
+          396655486
+  401183053
+          406974617
+        408456151
+          414906606
+      417108800
+          440048504
+        442974087
+          443965436
+    446064254
+          467297001
+        467861996
+          491348526
+      492389415
+          500698241
+        513997357
+          526301748
+527049522
+          569416650
+        569548985
+          582624695
+      588558884
+          590622333
+        597694500
+          624342624
+    631482674
+          635683955
+        654713205
+          714504434
+      716422494
+          729213477
+        746289310
+          779313232
+  792426959
+          804553674
+        812182689
+          816031731
+      830200592
+          831614069
+        847227192
+          852925376
+    856420153
+          873039797
+        874970313
+          880641847
+      886411575
+          888202834
+        911064485
+          927727688
+        951791508
+          956251262
+        962720332
+          966836660
+          995036094
+----- After deleting 440048504 from tree
+          2788683
+        10420737
+          10791477
+      13136569
+          22944598
+        34503676
+          44234514
+    110484543
+          46930528
+        82306379
+          82306379
+          82622903
+        87665298
+          90835006
+      110484543
+          118364708
+        123424220
+          158051302
+      160493859
+          161894055
+        169422536
+          189861234
+    215764588
+          239313358
+        242280810
+          249037437
+      252742854
+          257352374
+        258958825
+          0
+  272124759
+          279621058
+        300138075
+          304991452
+      311235345
+          327998473
+        336611363
+          0
+    339970820
+          342179099
+        342691263
+          345837908
+      367668180
+          382369865
+        394149547
+          396655486
+  401183053
+          406974617
+        408456151
+          414906606
+      417108800
+          0
+        442974087
+          443965436
+    446064254
+          467297001
+        467861996
+          491348526
+      492389415
+          500698241
+        513997357
+          526301748
+527049522
+          569416650
+        569548985
+          582624695
+      588558884
+          590622333
+        597694500
+          624342624
+    631482674
+          635683955
+        654713205
+          714504434
+      716422494
+          729213477
+        746289310
+          779313232
+  792426959
+          804553674
+        812182689
+          816031731
+      830200592
+          831614069
+        847227192
+          852925376
+    856420153
+          873039797
+        874970313
+          880641847
+      886411575
+          888202834
+        911064485
+          927727688
+        951791508
+          956251262
+        962720332
+          966836660
+          995036094
+----- After deleting 491348526 from tree
+          2788683
+        10420737
+          10791477
+      13136569
+          22944598
+        34503676
+          44234514
+    110484543
+          46930528
+        82306379
+          82306379
+          82622903
+        87665298
+          90835006
+      110484543
+          118364708
+        123424220
+          158051302
+      160493859
+          161894055
+        169422536
+          189861234
+    215764588
+          239313358
+        242280810
+          249037437
+      252742854
+          257352374
+        258958825
+          0
+  272124759
+          279621058
+        300138075
+          304991452
+      311235345
+          327998473
+        336611363
+          0
+    339970820
+          342179099
+        342691263
+          345837908
+      367668180
+          382369865
+        394149547
+          396655486
+  401183053
+          406974617
+        408456151
+          414906606
+      417108800
+          0
+        442974087
+          443965436
+    446064254
+          467297001
+        467861996
+          0
+      492389415
+          500698241
+        513997357
+          526301748
+527049522
+          569416650
+        569548985
+          582624695
+      588558884
+          590622333
+        597694500
+          624342624
+    631482674
+          635683955
+        654713205
+          714504434
+      716422494
+          729213477
+        746289310
+          779313232
+  792426959
+          804553674
+        812182689
+          816031731
+      830200592
+          831614069
+        847227192
+          852925376
+    856420153
+          873039797
+        874970313
+          880641847
+      886411575
+          888202834
+        911064485
+          927727688
+        951791508
+          956251262
+        962720332
+          966836660
+          995036094
+del:     315ms  (        7 missing) find:      1ms  (Should be         9 missing)
+          2788683
+        10420737
+          10791477
+      13136569
+          22944598
+        34503676
+          44234514
+    110484543
+          46930528
+        82306379
+          82306379
+          82622903
+        87665298
+          90835006
+      110484543
+          118364708
+        123424220
+          158051302
+      160493859
+          161894055
+        169422536
+          189861234
+    215764588
+          239313358
+        242280810
+          249037437
+      252742854
+          257352374
+        258958825
+          0
+  272124759
+          279621058
+        300138075
+          304991452
+      311235345
+          327998473
+        336611363
+          0
+    339970820
+          342179099
+        342691263
+          345837908
+      367668180
+          382369865
+        394149547
+          396655486
+  401183053
+          406974617
+        408456151
+          414906606
+      417108800
+          0
+        442974087
+          443965436
+    446064254
+          467297001
+        467861996
+          0
+      492389415
+          500698241
+        513997357
+          526301748
+527049522
+          569416650
+        569548985
+          582624695
+      588558884
+          590622333
+        597694500
+          624342624
+    631482674
+          635683955
+        654713205
+          714504434
+      716422494
+          729213477
+        746289310
+          779313232
+  792426959
+          804553674
+        812182689
+          816031731
+      830200592
+          831614069
+        847227192
+          852925376
+    856420153
+          873039797
+        874970313
+          880641847
+      886411575
+          888202834
+        911064485
+          927727688
+        951791508
+          956251262
+        962720332
+          966836660
+          995036094
+  TreeSet     add:       1ms  find:       0ms  del:       0ms  (        9 missing) find:      0ms  (Should be         9 missing)
+PS C:\Users\omara\vsCodeRepos\
