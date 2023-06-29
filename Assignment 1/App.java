@@ -119,8 +119,8 @@ public class App {
         if(includeRemoves) {
             start = System.currentTimeMillis();
         for (Integer e: removeList) {
-                 System.out.printf("----- delete %d from tree\n", e.intValue());
-                theTree.printInOrder();
+ //                System.out.printf("----- delete %d from tree\n", e.intValue());
+  //              theTree.printInOrder();
                 theTree.deleteValue(e.intValue()); 
                 if(theTree.hasValue(e.intValue())) {
                      System.out.printf("Failed to delete %d\n", e.intValue());
@@ -225,12 +225,12 @@ public class App {
         tft.printInOrder();
         
 
-        executeIntCase(30, 20, true);
-        //executeIntCase(1000, 200, true);
-        //executeIntCase(10000, 2000, true);
-        //executeIntCase(100000, 20000, true);
-        //executeIntCase(1000000, 200000, true);
-        //executeIntCase(10000000, 2000000, true);
+        executeIntCase(100, 20, true);
+        executeIntCase(1000, 200, true);
+        executeIntCase(10000, 2000, true);
+        executeIntCase(100000, 20000, true);
+        executeIntCase(1000000, 200000, true);
+        executeIntCase(10000000, 2000000, true);
         
     }
 }
