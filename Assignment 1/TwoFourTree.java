@@ -666,6 +666,8 @@ public class TwoFourTree {
                     value3 = temp.value1;
                 }
                 temp.value1 = value;
+                if (temp.isTwoNode())
+                    temp = temp.omgTwoNode(value);
                 temp.deleteCases(temp.value1);
             }
         }
@@ -678,38 +680,41 @@ public class TwoFourTree {
                     else
                         node = node.omgTwoNode(value);
                 }
-                
                 if ((value == node.value1 || value == node.value2 || value == node.value3)){
+                    if(node.isTwoNode())
+                        node = node.omgTwoNode(value);
                     node.deleteCases(value);
                     break;
                 }
-                if (node.isFourNode()){
-                    if (value < node.value1)
-                        node = node.leftChild;
-                    else if (value > node.value3)
-                        node = node.rightChild;
-                    else if (value > this.value2)
-                        node = node.centerRightChild;
-                    else
-                        node = node.centerLeftChild;
-                }
-                else if (node.isThreeNode()) {
-                    if (value < node.value1)
-                        node = node.leftChild;
-                    else if (value > node.value2)
-                        node = node.rightChild;
-                    else
-                        node = node.centerChild;
-                }
-                else {
-                    if (value < node.value1)
-                        node = node.leftChild;
-                    else
-                    node = node.rightChild;            
+                if(!node.isLeaf){
+                    if (node.isFourNode()){
+                        if (value < node.value1)
+                            node = node.leftChild;
+                        else if (value > node.value3)
+                            node = node.rightChild;
+                        else if (value > this.value2)
+                            node = node.centerRightChild;
+                        else
+                            node = node.centerLeftChild;
+                    }
+                    else if (node.isThreeNode()) {
+                        if (value < node.value1)
+                            node = node.leftChild;
+                        else if (value > node.value2)
+                            node = node.rightChild;
+                        else
+                            node = node.centerChild;
+                    }
+                    else {
+                        if (value < node.value1)
+                            node = node.leftChild;
+                        else
+                            node = node.rightChild;            
+                    }
                 }
             }
         }
-        private TwoFourTreeItem fixRoot(int value){
+        private void fixRoot(int value){
             if (root.isTwoNode() && root.leftChild.isTwoNode() && root.rightChild.isTwoNode()){
                 root.value2 = root.value1;
                 root.value1 = root.leftChild.value1;
@@ -723,7 +728,6 @@ public class TwoFourTree {
                 root.rightChild.leftChild.parent = root;
                 root.rightChild.rightChild.parent = root;
                 root.values = 3;
-                return root;
                 }
             else if(root.leftChild.isTwoNode() && !root.rightChild.isTwoNode() && value < root.value1){
                 TwoFourTreeItem node = root.leftChild;
@@ -748,7 +752,6 @@ public class TwoFourTree {
                     node.parent.rightChild.centerRightChild = null;
                 }
                 node.parent.rightChild.values--;
-                return node;
             }
             else if(root.rightChild.isTwoNode() && !root.leftChild.isTwoNode() && value > root.value1){
                 TwoFourTreeItem node = root.rightChild;
@@ -775,9 +778,7 @@ public class TwoFourTree {
                     node.parent.leftChild.centerRightChild = null;
                 }
                 node.parent.leftChild.values--;
-                return node;
             }
-            return this;
         }
     }
 
