@@ -119,14 +119,14 @@ public class App {
         if(includeRemoves) {
             start = System.currentTimeMillis();
         for (Integer e: removeList) {
- //                System.out.printf("----- delete %d from tree\n", e.intValue());
-  //              theTree.printInOrder();
+           //  System.out.printf("----- delete %d from tree\n", e.intValue());
+             //   theTree.printInOrder();
                 theTree.deleteValue(e.intValue()); 
                 if(theTree.hasValue(e.intValue())) {
-                //     System.out.printf("Failed to delete %d\n", e.intValue());
+                     System.out.printf("Failed to delete %d\n", e.intValue());
                 }
-/*                 System.out.printf("----- After deleting %d from tree\n", e.intValue());
-                theTree.printInOrder(); */
+            //    System.out.printf("----- After deleting %d from tree\n", e.intValue());
+              //  theTree.printInOrder(); 
             }
             end = System.currentTimeMillis();
             ms = end - start;

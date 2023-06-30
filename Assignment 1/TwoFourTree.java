@@ -415,39 +415,75 @@ public class TwoFourTree {
                     }
                 }
                 else{
-                    if(node == node.parent.leftChild || node == node.parent.centerLeftChild){//-----------
-                        node = node.parent.leftChild;
+                    if(node == node.parent.leftChild){
                         node.value2 = node.parent.value1;
                         node.value3 = node.parent.centerLeftChild.value1;
                         node.values = 3;
-                        node.centerLeftChild = node.rightChild;
-                        node.centerRightChild = node.parent.centerLeftChild.leftChild;
-                        node.rightChild = node.parent.centerLeftChild.rightChild;
-                        node.parent.centerChild = node.parent.centerRightChild;
-                        node.parent.centerLeftChild = null;
-                        node.parent.centerRightChild = null;
+                        
                         node.parent.value1 = node.parent.value2;
                         node.parent.value2 = node.parent.value3;
                         node.parent.value3 = 0;
-                        node.parent.values--;
-                    }
-
-                    else if(node == node.parent.centerRightChild || node == node.parent.rightChild){
-                        node = node.parent.centerRightChild;
-                        node.value2 = node.parent.value3;
-                        node.value3 = node.parent.rightChild.value1;
-                        node.values = 3;
+                        node.parent.values = 2;
+                        
                         node.centerLeftChild = node.rightChild;
-                        node.centerRightChild = node.parent.rightChild.leftChild;
-                        node.rightChild = node.parent.rightChild.rightChild;
-                        node.parent.centerChild = node.parent.centerLeftChild;
-                        node.parent.rightChild = node.parent.centerRightChild;
+                        node.centerRightChild = node.parent.centerLeftChild.leftChild;
+                        node.rightChild = node.parent.centerLeftChild.rightChild;
+                            
+                        node.parent.centerChild = node.parent.centerRightChild;
+                        
                         node.parent.centerLeftChild = null;
                         node.parent.centerRightChild = null;
-                        node.parent.value2 = node.parent.value3;
-                        node.parent.values--;
                     }
+                    else if(node == node.parent.centerLeftChild || node == node.parent.centerRightChild){
 
+                        node.value2 = node.parent.value2;
+                        node.parent.value2 = node.parent.value3;
+                        node.parent.value3 = 0;
+                        node.parent.values--;
+
+                        if(node == node.parent.centerLeftChild){
+                            node.value3 = node.parent.centerRightChild.value1;
+
+                            node.centerLeftChild = node.rightChild;
+                            node.centerRightChild = node.parent.centerRightChild.leftChild;
+                            node.rightChild = node.parent.centerRightChild.rightChild;
+
+                        }
+                        else if(node == node.parent.centerRightChild){
+                            
+                            node.value3 = node.value1;
+                            node.value1 = node.parent.centerLeftChild.value1;
+
+                            node.centerRightChild = node.leftChild;
+                            node.centerLeftChild = node.parent.centerLeftChild.rightChild;
+                            node.leftChild = node.parent.centerLeftChild.leftChild;
+
+                        }
+
+                        //merge
+                        node.parent.centerChild = node;
+
+                        node.parent.centerLeftChild = null;
+                        node.parent.centerRightChild = null;
+                    }
+                    else if(node == node.parent.rightChild){
+                        node.value3 = node.value1;
+                        node.value2 = node.parent.value3;
+                        node.value1 = node.parent.centerRightChild.value1;
+                        node.values = 3;
+                        
+                        node.parent.value3 = 0;
+                        node.parent.values--;;
+                        
+                        node.centerRightChild = node.leftChild;
+                        node.centerLeftChild = node.parent.centerRightChild.rightChild;
+                        node.leftChild = node.parent.centerRightChild.leftChild;             
+                                        
+                        node.parent.centerChild = node.parent.centerLeftChild;
+                        
+                        node.parent.centerLeftChild = null;
+                        node.parent.centerRightChild = null;
+                    }
                 }
             }
             else if (node.parent.isThreeNode()){
@@ -568,38 +604,52 @@ public class TwoFourTree {
                         node.value2 = node.parent.value1;
                         node.value3 = node.parent.centerChild.value1;
                         node.values = 3;
+                        
+                        node.parent.value1 = node.parent.value2;
+                        node.parent.value2 = 0;
+                        node.parent.values = 1;
+                        
                         node.centerLeftChild = node.rightChild;
                         node.centerRightChild = node.parent.centerChild.leftChild;
                         node.rightChild = node.parent.centerChild.rightChild;
+                        
                         node.parent.centerChild = null;
-                        node.parent.value1 = node.parent.value2;
-                        node.parent.value2 = 0;
-                        node.parent.values--;
+                        
                     }
-                    else if(node == node.parent.centerChild){
+                    else if(node == node.parent.centerChild || node == node.parent.rightChild){
+                        node = node.parent.centerChild;
                         node.value2 = node.parent.value2;
                         node.value3 = node.parent.rightChild.value1;
                         node.values = 3;
+                        
+                        node.parent.value2 = 0;
+                        node.parent.values = 1;
+                        
+                        node.leftChild = node.leftChild;
                         node.centerLeftChild = node.rightChild;
                         node.centerRightChild = node.parent.rightChild.leftChild;
                         node.rightChild = node.parent.rightChild.rightChild;
+                    
                         node.parent.rightChild = node;
                         node.parent.centerChild = null;
-                        node.parent.values = 1;
-                    }
-                    else if(node == node.parent.rightChild){
-                        node.value3 = node.value1;
-                        node.value2 = node.parent.value2;
-                        node.value1 = node.parent.centerChild.value1;
-                        node.values = 3;
-                        node.centerRightChild = node.leftChild;
-                        node.centerLeftChild = node.parent.centerChild.rightChild;
-                        node.leftChild = node.parent.centerChild.leftChild;
-                        node.parent.centerChild = null;
-                        node.parent.value2 = 0;
-                        node.parent.values = 1;
                     }
                 }
+            }
+            if (node.leftChild != null){
+                node.leftChild.parent = node;
+                node.isLeaf = false;
+            }
+            if (node.centerLeftChild != null){
+                node.centerLeftChild.parent = node;
+                node.isLeaf = false;
+            }
+            if (node.centerRightChild != null){
+                node.centerRightChild.parent = node;
+                node.isLeaf = false;
+            }
+            if (node.rightChild != null) {
+                node.rightChild.parent = node;
+                node.isLeaf = false;
             }
             return node;
         }
@@ -607,7 +657,7 @@ public class TwoFourTree {
             TwoFourTreeItem node = this;
             if(node.isTwoNode())
                 node = node.omgTwoNode();
-            if(node.isLeaf){
+            if(node.isLeaf && !node.isTwoNode()){
                 if (value == node.value1){
                     node.value1 = node.value2;
                     node.value2 = node.value3;
@@ -626,7 +676,7 @@ public class TwoFourTree {
             }            
             else if (!node.isLeaf){
                 if (node.isTwoNode())
-                node = node.omgTwoNode();
+                    node = node.omgTwoNode();
                 TwoFourTreeItem temp = node;
                 // Value 1
                 if (value == node.value1){
@@ -640,8 +690,6 @@ public class TwoFourTree {
                         temp = temp.leftChild;
                     }
                     node.value1 = temp.value1;
-                    temp.value1 = value;
-                    temp.deleteCases(value);
                 }
                 
                 // Value 2
@@ -656,8 +704,6 @@ public class TwoFourTree {
                         temp = temp.leftChild;
                     }
                     node.value2 = temp.value1;
-                    temp.value1 = value;
-                    temp.deleteCases(value);
                 }
                 
                 // Value 3
@@ -669,14 +715,16 @@ public class TwoFourTree {
                         temp = temp.leftChild;
                     }
                     node.value3 = temp.value1;
-                    temp.value1 = value;
-                    temp.deleteCases(value);
                 }
+                if (temp.isTwoNode())
+                    temp = temp.omgTwoNode();
+                temp.value1 = value;
+                temp.deleteCases(value);
             }
         }
         private void delete(int value){
             TwoFourTreeItem node = this;
-            while(true){
+            while(node != null){
                 if(!hasValue(value))
                     break;
                 if(node.isTwoNode()){
@@ -692,13 +740,25 @@ public class TwoFourTree {
                         node = node.omgTwoNode();
                 }
                 if ((value == node.value1 || value == node.value2 || value == node.value3)){
-                    if(node.isTwoNode())
-                        node = node.omgTwoNode();
                     node.deleteCases(value);
                     break;
                 }
                 if (!node.isLeaf){
-                    if (node.isFourNode()){
+                    if (node.isRoot() && node.isTwoNode()){
+                        if (value < node.value1)
+                            node = node.leftChild;
+                        else
+                            node = node.rightChild;
+                    }
+                    else if (node.isThreeNode()){
+                        if (value < node.value1)
+                            node = node.leftChild;
+                        else if (value > node.value2)
+                            node = node.rightChild;
+                        else
+                            node = node.centerChild;
+                    }
+                    else if (node.isFourNode()){
                         if (value < node.value1)
                             node = node.leftChild;
                         else if (value > node.value3)
@@ -708,19 +768,6 @@ public class TwoFourTree {
                         else
                             node = node.centerLeftChild;
                     }
-                    else if (node.isThreeNode()) {
-                        if (value < node.value1)
-                            node = node.leftChild;
-                        else if (value > node.value2)
-                            node = node.rightChild;
-                        else
-                            node = node.centerChild;
-                    }
-                    else
-                        if (value < node.value1)
-                            node = node.leftChild;
-                        else
-                            node = node.rightChild;
                 }
             }
         }
