@@ -419,50 +419,28 @@ public class TwoFourTree {
                         node.value2 = node.parent.value1;
                         node.value3 = node.parent.centerLeftChild.value1;
                         node.values = 3;
-                        
                         node.parent.value1 = node.parent.value2;
                         node.parent.value2 = node.parent.value3;
                         node.parent.value3 = 0;
                         node.parent.values = 2;
-                        
                         node.centerLeftChild = node.rightChild;
                         node.centerRightChild = node.parent.centerLeftChild.leftChild;
                         node.rightChild = node.parent.centerLeftChild.rightChild;
-                            
                         node.parent.centerChild = node.parent.centerRightChild;
-                        
                         node.parent.centerLeftChild = null;
                         node.parent.centerRightChild = null;
                     }
                     else if(node == node.parent.centerLeftChild || node == node.parent.centerRightChild){
-
+                        node = node.parent.centerLeftChild;
                         node.value2 = node.parent.value2;
                         node.parent.value2 = node.parent.value3;
                         node.parent.value3 = 0;
                         node.parent.values--;
-
-                        if(node == node.parent.centerLeftChild){
-                            node.value3 = node.parent.centerRightChild.value1;
-
-                            node.centerLeftChild = node.rightChild;
-                            node.centerRightChild = node.parent.centerRightChild.leftChild;
-                            node.rightChild = node.parent.centerRightChild.rightChild;
-
-                        }
-                        else if(node == node.parent.centerRightChild){
-                            
-                            node.value3 = node.value1;
-                            node.value1 = node.parent.centerLeftChild.value1;
-
-                            node.centerRightChild = node.leftChild;
-                            node.centerLeftChild = node.parent.centerLeftChild.rightChild;
-                            node.leftChild = node.parent.centerLeftChild.leftChild;
-
-                        }
-
-                        //merge
+                        node.value3 = node.parent.centerRightChild.value1;
+                        node.centerLeftChild = node.rightChild;
+                        node.centerRightChild = node.parent.centerRightChild.leftChild;
+                        node.rightChild = node.parent.centerRightChild.rightChild;
                         node.parent.centerChild = node;
-
                         node.parent.centerLeftChild = null;
                         node.parent.centerRightChild = null;
                     }
@@ -471,16 +449,12 @@ public class TwoFourTree {
                         node.value2 = node.parent.value3;
                         node.value1 = node.parent.centerRightChild.value1;
                         node.values = 3;
-                        
                         node.parent.value3 = 0;
                         node.parent.values--;;
-                        
                         node.centerRightChild = node.leftChild;
                         node.centerLeftChild = node.parent.centerRightChild.rightChild;
                         node.leftChild = node.parent.centerRightChild.leftChild;             
-                                        
                         node.parent.centerChild = node.parent.centerLeftChild;
-                        
                         node.parent.centerLeftChild = null;
                         node.parent.centerRightChild = null;
                     }
@@ -768,6 +742,8 @@ public class TwoFourTree {
                         else
                             node = node.centerLeftChild;
                     }
+                    else if(node.isTwoNode())
+                        node = node.omgTwoNode();
                 }
             }
         }
