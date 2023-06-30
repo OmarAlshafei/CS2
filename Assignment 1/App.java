@@ -123,7 +123,7 @@ public class App {
   //              theTree.printInOrder();
                 theTree.deleteValue(e.intValue()); 
                 if(theTree.hasValue(e.intValue())) {
-                     System.out.printf("Failed to delete %d\n", e.intValue());
+                //     System.out.printf("Failed to delete %d\n", e.intValue());
                 }
 /*                 System.out.printf("----- After deleting %d from tree\n", e.intValue());
                 theTree.printInOrder(); */
@@ -144,7 +144,7 @@ public class App {
         // theTree.printInOrder();
 
         TreeSet<Integer> theComparison = new TreeSet<Integer>();
-
+/* 
         System.out.printf("  TreeSet     ");
 
         start = System.currentTimeMillis();
@@ -179,9 +179,9 @@ public class App {
             System.out.printf("find: %,6dms  ", ms);
             System.out.printf("(Should be %,9d missing)  ", removeList.size());
         }
-	
-		System.out.printf("\n");
-        System.gc();
+	*/
+		//System.out.printf("\n");
+       // System.gc();
 	}
 
     public static void main(String[] args) throws Exception {
