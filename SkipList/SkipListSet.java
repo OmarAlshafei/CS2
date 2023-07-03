@@ -1,9 +1,11 @@
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.SortedSet;
+import java.lang.reflect.Array;
+import java.lang.UnsupportedOperationException;
 
 public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
     
@@ -20,7 +22,33 @@ public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
 			arr.add(null);
 		
 	}
-	
+    private class SkipListSetItem {
+		
+		ArrayList<SkipListSetItem> array = new ArrayList<SkipListSetItem>();
+		
+		private T val;
+		private int height;
+		
+		public SkipListSetItem (T e) {
+			val = e;
+			height = getHeight();
+			
+			for (int i = 0; i < height; i++) 
+				array.add(null);
+			
+		}
+	}
+	public int getHeight () {
+		int height = 1;
+		Random rand = new Random();
+		boolean bool = rand.nextBoolean();
+		
+		while (bool == true && height < heightMax) {
+			height++;
+			bool = rand.nextBoolean();
+		}
+		return height;
+	}
 	private class SkipListSetIterator<T extends Comparable<T>> implements Iterator<T>{
 
         @Override
@@ -150,22 +178,5 @@ public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'last'");
     }
-    private class SkipListSetItem {
-		
-		ArrayList<SkipListSetItem> array = new ArrayList<SkipListSetItem>();
-		
-		private T value;
-		private int height; // How many elements are in the item, last index would be height - 1
-		
-		public SkipListSetItem (T e) {
-			int i;
-			
-			value = e;
-			height = generate_height();
-			
-			for (i = 0; i < height; i++) 
-				array.add(null);
-			
-		}
-	}
+
 }
