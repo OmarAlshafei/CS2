@@ -73,25 +73,33 @@ public class TwoFourTree {
         }
         // method to order values when adding a new value in node
         private void orderValues(int newValue) {
-            TwoFourTreeItem temp = this;
-            if (isThreeNode()){
-                if (newValue < value1 && newValue < value2)
-                    temp = new TwoFourTreeItem(newValue, value1, value2);
-                else if (newValue > value1 && newValue > value2)
-                    temp = new TwoFourTreeItem(value1, value2, newValue);
-                else
-                    temp = new TwoFourTreeItem(value1, newValue, value2);
-            } 
-            else if (isTwoNode()){
-                if (newValue < value1)
-                    temp = new TwoFourTreeItem(newValue, value1);
-                else
-                    temp = new TwoFourTreeItem(value1, newValue);
+            // three node case
+            if (isThreeNode()) {
+                if (newValue < value1) {
+                    value3 = value2;
+                    value2 = value1;
+                    value1 = newValue;
+                } 
+                else if (newValue > value2) {
+                    value3 = newValue;
+                } 
+                else {
+                    value3 = value2;
+                    value2 = newValue;
+                }
+                values = 3;
             }
-            values = temp.values;
-            value1 = temp.value1;
-            value2 = temp.value2;
-            value3 = temp.value3;
+            // two node case
+            else if (isTwoNode()) {
+                if (newValue < value1) {
+                    value2 = value1;
+                    value1 = newValue;
+                } 
+                else {
+                    value2 = newValue;
+                }
+                values = 2;
+            }
         }
         // method to search through tree
         private boolean searchValue(int value) {
@@ -99,6 +107,7 @@ public class TwoFourTree {
             // return true if value is found
             if (value == node.value1 || value == node.value2 || value == node.value3)
                 return true;
+            // call appropriate child for two node
             else if (node.isTwoNode()){
                 if (value < node.value1 && node.leftChild != null) 
                     return node.leftChild.searchValue(value);
@@ -107,6 +116,7 @@ public class TwoFourTree {
                     return node.rightChild.searchValue(value);
 
             }
+            // call appropriate child for three node
             else if (node.isThreeNode()) {
                 if (value < node.value1 && node.leftChild != null) 
                     return node.leftChild.searchValue(value);
@@ -116,7 +126,8 @@ public class TwoFourTree {
                     
                 else if (node.centerChild != null)
                     return node.centerChild.searchValue(value);
-            } 
+            }
+            // call appropriate child for four node
             else if (node.isFourNode()) {
                 if (value < node.value1 && node.leftChild != null) 
                     return node.leftChild.searchValue(value);
@@ -142,7 +153,7 @@ public class TwoFourTree {
             newLeftNode.rightChild = centerLeftChild;
             newRightNode.leftChild = centerRightChild;
             newRightNode.rightChild = rightChild;
-            
+            // set child parents and if not null then set node isLeaf to false
             if (leftChild != null){
                 leftChild.parent = newLeftNode;
                 newLeftNode.isLeaf = false;
@@ -159,7 +170,8 @@ public class TwoFourTree {
                 rightChild.parent = newRightNode;
                 newRightNode.isLeaf = false;
             }
-            if (isRoot()){// special case for splitting root node
+            // special case for splitting root node
+            if (isRoot()){
                 root = new TwoFourTreeItem(value2);
                 root.leftChild = newLeftNode;
                 root.rightChild = newRightNode;
@@ -168,6 +180,7 @@ public class TwoFourTree {
                 root.isLeaf = false;
                 return root;
             }
+            // if node is not root then merge
             else {
                 newLeftNode.parent = parent;
                 newRightNode.parent = parent;
@@ -178,7 +191,8 @@ public class TwoFourTree {
         }
         // merge node after splitting
         private void merge(TwoFourTreeItem oldNode, TwoFourTreeItem lChild, TwoFourTreeItem rChild) {
-            if (isThreeNode()) { // three node case
+            // merge three node
+            if (isThreeNode()) { 
                 if (oldNode == leftChild) {
                     leftChild = lChild;
                     centerChild = rChild;
@@ -188,8 +202,8 @@ public class TwoFourTree {
                     centerChild = lChild;
                 }
             }
-            
-            else if (isFourNode()) { // four node case
+            // merge four node
+            else if (isFourNode()) {
                 if (oldNode == leftChild) {
                     leftChild = lChild;
                     centerLeftChild = rChild;
@@ -211,20 +225,24 @@ public class TwoFourTree {
         // handles the proccess of adding a node in tree
         private TwoFourTreeItem insertValue(int value) {
             TwoFourTreeItem node = this;
+            // if we come across a four node we split it
             if (node.isFourNode()) {
                 node = split();
             }
-            if (node.isLeaf) {// adds value once a leaf node is reached
+            // adds value once a leaf node is reached
+            if (node.isLeaf) {
                 node.orderValues(value);
                 return node;
-            } 
-            if (node.isTwoNode()) {
+            }
+            // call appropriate child for two node
+            else if (node.isTwoNode()) {
                 if (value < node.value1)
                     return node.leftChild.insertValue(value);
                 else
                     return node.rightChild.insertValue(value);
             } 
-            if (node.isThreeNode()) {
+            // call appropriate child for three node
+            else {
                 if (value < value1)
                     return node.leftChild.insertValue(value);
                 else if (value > value2)
@@ -232,20 +250,9 @@ public class TwoFourTree {
                 else
                     return node.centerChild.insertValue(value);
             }
-            else{
-                if (value < node.value1)
-                    return node.leftChild.insertValue(value);
-                else if (value > node.value3)
-                    return node.rightChild.insertValue(value);
-                else if (value > node.value2)
-                    return node.centerRightChild.insertValue(value);
-                else
-                    return node.centerLeftChild.insertValue(value);    
-            }
-            
         }
         // rotates or fuses two node during deletion
-        private TwoFourTreeItem omgTwoNode(){
+        private TwoFourTreeItem rotateOrFuse(){
             TwoFourTreeItem node = this;
             // 4 node parent case
             if (node.parent.isFourNode()){
@@ -266,7 +273,7 @@ public class TwoFourTree {
                         node.parent.centerLeftChild.leftChild = node.parent.centerLeftChild.centerChild;
                         node.parent.centerLeftChild.centerChild = null;
                     }
-                    if(node.parent.centerLeftChild.isFourNode()){
+                    else if(node.parent.centerLeftChild.isFourNode()){
                         node.parent.centerLeftChild.value1 = node.parent.centerLeftChild.value2;
                         node.parent.centerLeftChild.value2 = node.parent.centerLeftChild.value3;
                         node.parent.centerLeftChild.value3 = 0;
@@ -294,7 +301,7 @@ public class TwoFourTree {
                         node.parent.centerRightChild.leftChild = node.parent.centerRightChild.centerChild;
                         node.parent.centerRightChild.centerChild = null;
                     }
-                    if(node.parent.centerRightChild.isFourNode()){
+                    else if(node.parent.centerRightChild.isFourNode()){
                         node.parent.centerRightChild.value1 = node.parent.centerRightChild.value2;
                         node.parent.centerRightChild.value2 = node.parent.centerRightChild.value3;
                         node.parent.centerRightChild.value3 = 0;
@@ -322,7 +329,7 @@ public class TwoFourTree {
                         node.parent.rightChild.leftChild = node.parent.rightChild.centerChild;
                         node.parent.rightChild.centerChild = null;
                     }
-                    if(node.parent.rightChild.isFourNode()){
+                    else if(node.parent.rightChild.isFourNode()){
                         node.parent.rightChild.value1 = node.parent.rightChild.value2;
                         node.parent.rightChild.value2 = node.parent.rightChild.value3;
                         node.parent.rightChild.value3 = 0;
@@ -350,7 +357,7 @@ public class TwoFourTree {
                         node.parent.leftChild.rightChild = node.parent.leftChild.centerChild;
                         node.parent.leftChild.centerChild = null;
                     }
-                    if(node.parent.leftChild.isFourNode()){
+                    else if(node.parent.leftChild.isFourNode()){
                         node.parent.value1 = node.parent.leftChild.value3;
                         node.parent.leftChild.value3 = 0;
                         node.parent.leftChild.values = 1;
@@ -377,7 +384,7 @@ public class TwoFourTree {
                         node.parent.centerLeftChild.rightChild = node.parent.centerLeftChild.centerChild;
                         node.parent.centerLeftChild.centerChild = null;
                     }
-                    if(node.parent.centerLeftChild.isFourNode()){
+                    else if(node.parent.centerLeftChild.isFourNode()){
                         node.parent.value2 = node.parent.leftChild.value3;
                         node.parent.centerLeftChild.value3 = 0;
                         node.parent.centerLeftChild.values = 2;
@@ -404,7 +411,7 @@ public class TwoFourTree {
                         node.parent.centerRightChild.rightChild = node.parent.centerRightChild.centerChild;
                         node.parent.centerRightChild.centerChild = null;
                     }
-                    if(node.parent.centerRightChild.isFourNode()){
+                    else if(node.parent.centerRightChild.isFourNode()){
                         node.parent.value3 = node.parent.centerRightChild.value3;
                         node.parent.centerRightChild.value3 = 0;
                         node.parent.centerRightChild.values = 2;
@@ -540,7 +547,7 @@ public class TwoFourTree {
                         node.parent.leftChild.rightChild = node.parent.leftChild.centerChild;
                         node.parent.leftChild.centerChild = null;
                     }
-                    if(node.parent.leftChild.isFourNode()){
+                    else if(node.parent.leftChild.isFourNode()){
                         node.parent.value1 = node.parent.leftChild.value3;
                         node.parent.leftChild.value3 = 0;
                         node.parent.leftChild.values = 2;  
@@ -567,7 +574,7 @@ public class TwoFourTree {
                         node.parent.centerChild.rightChild = node.parent.centerChild.centerChild;
                         node.parent.centerChild.centerChild = null;
                     }
-                    if(node.parent.centerChild.isFourNode()){
+                    else if(node.parent.centerChild.isFourNode()){
                         node.parent.value2 = node.parent.leftChild.value3;
                         node.parent.centerChild.value3 = 0;
                         node.parent.centerChild.values = 2; 
@@ -615,7 +622,7 @@ public class TwoFourTree {
                     }
                 }
             }
-            // fix child parent pointers
+            // fix children parent pointers
             if (node.leftChild != null){
                 node.leftChild.parent = node;
                 node.isLeaf = false;
@@ -637,8 +644,8 @@ public class TwoFourTree {
         // handles deletion once value is found in a node
         private void deleteCases(int value){ 
             TwoFourTreeItem node = this;
-            if(node.isTwoNode())
-                node = node.omgTwoNode();
+            if (node.isTwoNode() && !node.parent.isTwoNode())
+                node = node.rotateOrFuse();
             // delete directly if value is in a leaf node
             if(node.isLeaf && !node.isTwoNode()){
                 if (value == node.value1){
@@ -667,8 +674,8 @@ public class TwoFourTree {
                     else if (node.isThreeNode())
                         temp = node.centerChild;
                     while(!temp.isLeaf){
-                        if (temp.isTwoNode())
-                            temp = temp.omgTwoNode();
+                        if (temp.isTwoNode() && !temp.parent.isTwoNode())
+                            temp = temp.rotateOrFuse();
                         temp = temp.leftChild;
                     }
                     node.value1 = temp.value1;
@@ -680,8 +687,8 @@ public class TwoFourTree {
                     else if (node.isThreeNode())
                         temp = node.rightChild;
                     while(!temp.isLeaf){
-                        if (temp.isTwoNode())
-                            temp = temp.omgTwoNode();
+                        if (temp.isTwoNode() && !temp.parent.isTwoNode())
+                            temp = temp.rotateOrFuse();
                         temp = temp.leftChild;
                     }
                     node.value2 = temp.value1;
@@ -690,14 +697,13 @@ public class TwoFourTree {
                 else if (value == node.value3){
                     temp = node.rightChild;
                     while(!temp.isLeaf){
-                        if (temp.isTwoNode())
-                            temp = temp.omgTwoNode();
+                        if (temp.isTwoNode() && !temp.parent.isTwoNode())
+                            temp = temp.rotateOrFuse();
                         temp = temp.leftChild;
                     }
                     node.value3 = temp.value1;
                 }
-                if (temp.isTwoNode())
-                    temp = temp.omgTwoNode();
+
                 // swap values and recall method with the value in the leaf node
                 temp.value1 = value;
                 temp.deleteCases(value);
@@ -707,23 +713,27 @@ public class TwoFourTree {
         private void delete(int value){
             TwoFourTreeItem node = this;
             while(hasValue(value)){
+                // if node is a two node we must operate on the node
                 if(node.isTwoNode()){
+                    // cases if the node is the root
                     if(node.isRoot()){
-                        if(node.rightChild.isTwoNode() && !node.leftChild.isTwoNode() && value > node.value1){
+                        if(node.rightChild.isTwoNode() && !node.leftChild.isTwoNode() && value > node.value1)
                             node = rootRightChild();
-                        }
-                        else if(node.leftChild.isTwoNode() && !node.rightChild.isTwoNode() && value < node.value1){
+                        
+                        else if(node.leftChild.isTwoNode() && !node.rightChild.isTwoNode() && value < node.value1)
                             node = rootLeftChild();
-                        }
                     }
-                    else
-                        node = node.omgTwoNode();
+                    // if it is not the root we can rotate or fuse the node
+                    else if (node.isTwoNode() && !node.parent.isTwoNode())
+                        node = node.rotateOrFuse();
                 }
+                // if value is found in node then call method to delete the value
                 if ((value == node.value1 || value == node.value2 || value == node.value3) && !node.isTwoNode()){
                     node.deleteCases(value);
                     break;
                 }
-                else {
+                // traverse tree if node is not a leaf
+                else if (!node.isLeaf){
                     if (node.isTwoNode()){
                         if(node.isRoot()){
                             if (value < node.value1)
@@ -731,8 +741,8 @@ public class TwoFourTree {
                             else
                                 node = node.rightChild;
                         }
-                        else
-                            node = node.omgTwoNode();
+                        else if (node.isTwoNode() && !node.parent.isTwoNode())
+                            node = node.rotateOrFuse();
                     }
                     else if (node.isThreeNode()){
                         if (value < node.value1)
@@ -760,15 +770,26 @@ public class TwoFourTree {
             TwoFourTreeItem node = this;
             TwoFourTreeItem newRoot = new TwoFourTreeItem(node.leftChild.value1, node.value1, node.rightChild.value1);
             newRoot.parent = node.parent;
+            // setting the new root's children and children parents
             newRoot.leftChild = node.leftChild.leftChild;
-            if(newRoot.leftChild != null) newRoot.leftChild.parent = newRoot;
-                newRoot.centerLeftChild = node.leftChild.rightChild;
-            if(newRoot.centerLeftChild != null) newRoot.centerLeftChild.parent = newRoot;
-                newRoot.centerRightChild = node.rightChild.leftChild;
-            if(newRoot.centerRightChild != null) newRoot.centerRightChild.parent = newRoot;
-                newRoot.rightChild = node.rightChild.rightChild;
-            if(newRoot.rightChild != null) newRoot.rightChild.parent = newRoot;
-                if(newRoot.leftChild != null || newRoot.centerLeftChild != null || newRoot.centerRightChild != null || newRoot.rightChild != null) newRoot.isLeaf = false;
+            if(newRoot.leftChild != null) 
+                newRoot.leftChild.parent = newRoot;
+            
+            newRoot.centerLeftChild = node.leftChild.rightChild;
+            if(newRoot.centerLeftChild != null) 
+                newRoot.centerLeftChild.parent = newRoot;
+                
+            newRoot.centerRightChild = node.rightChild.leftChild;
+            if(newRoot.centerRightChild != null) 
+                newRoot.centerRightChild.parent = newRoot;
+                
+            newRoot.rightChild = node.rightChild.rightChild;
+            if(newRoot.rightChild != null) 
+                newRoot.rightChild.parent = newRoot;
+                
+            if(newRoot.leftChild != null || newRoot.centerLeftChild != null || newRoot.centerRightChild != null || newRoot.rightChild != null) 
+                newRoot.isLeaf = false;
+                
             return newRoot;
         }
         // case for when root and left child are 2 nodes but right child is not
@@ -807,7 +828,7 @@ public class TwoFourTree {
             node.parent.leftChild.value2 = node.parent.leftChild.value3;
             node.centerChild = node.leftChild;
             node.leftChild = node.parent.leftChild.rightChild;
-                
+            
             if(node.parent.leftChild.isThreeNode()){
                 node.parent.value1 = node.parent.leftChild.value2;
                 node.parent.leftChild.value2 = 0;
@@ -835,7 +856,7 @@ public class TwoFourTree {
         }
         else if(hasValue(value))
             return false;
-        
+        // insert value in tree
         root.insertValue(value);
         return true;
         
@@ -852,17 +873,17 @@ public class TwoFourTree {
             
         else if (!hasValue(value))
             return false;
-
+        // check if root is a two node and both its children are also two node
         if(root.isTwoNode()){
             if(root.leftChild != null && root.rightChild != null) {
+                // call fuse root method if true
                 if(root.leftChild.isTwoNode() && root.rightChild.isTwoNode())
                 root = root.fixRoot();
             }
         }
-        
-        TwoFourTreeItem node = root;
+        // delete value from tree
         while(hasValue(value))
-            node.delete(value);
+            root.delete(value);
         
         return true;
     }
