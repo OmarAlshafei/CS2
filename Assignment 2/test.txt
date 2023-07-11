@@ -1,0 +1,84 @@
+// An adjacency list method using a Map with vertices as keys, and linked lists in the values to store the edges.
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
+
+public class Dijkstra {
+    private Map<Integer, LinkedList<Integer>> adjacencyList;
+
+    public Dijkstra() {
+        adjacencyList = new HashMap<>();
+    }
+
+    public void addVertex(int vertex) {
+        adjacencyList.put(vertex, new LinkedList<>());
+    }
+
+    public void addEdge(int source, int destination, int distance) {
+        if (!adjacencyList.containsKey(source))
+            addVertex(source);
+
+        if (!adjacencyList.containsKey(destination))
+            addVertex(destination);
+
+        adjacencyList.get(source).add(destination);
+        adjacencyList.get(destination).add(source);
+        adjacencyList.get(source).add(distance);
+        adjacencyList.get(destination).add(distance);
+    }
+
+    public void printGraph() {
+        for (int vertex : adjacencyList.keySet()) {
+            LinkedList<Integer> edges = adjacencyList.get(vertex);
+            System.out.print(vertex + " ");
+            for (int edge : edges) {
+                System.out.print(edge + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        Dijkstra graph = new Dijkstra();
+
+        String file = "cop3503-asn2-input.txt";
+
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+
+        String line;
+        int numVertices = 0;
+        int sourceVertex = 0;
+        int numEdges = 0;
+
+        // Read the file line by line
+        while ((line = reader.readLine()) != null) {
+            line = line.trim();
+
+            String[] parts = line.split(" ");
+
+            if (numVertices == 0) {
+                numVertices = Integer.parseInt(parts[0]);
+            } 
+            else if (sourceVertex == 0) {
+                sourceVertex = Integer.parseInt(parts[0]);
+            } 
+            else if (numEdges == 0) {
+                numEdges = Integer.parseInt(parts[0]);
+            } 
+            else {
+                int vertex = Integer.parseInt(parts[0]);
+                int destinationVertex = Integer.parseInt(parts[1]);
+                int weight = Integer.parseInt(parts[2]);
+
+                graph.addVertex(vertex);
+                graph.addVertex(destinationVertex);
+                graph.addEdge(vertex, destinationVertex, weight);
+            }
+        }
+        reader.close();
+        graph.printGraph();
+    }
+}
