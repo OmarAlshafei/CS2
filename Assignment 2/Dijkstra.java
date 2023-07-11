@@ -73,25 +73,40 @@ public class Dijkstra {
         Dijkstra graph = new Dijkstra();
 
         String file = "cop3503-asn2-input.txt";
-        
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        
-        int numOfVertices = Integer.parseInt(reader.readLine().trim());
-        int source = Integer.parseInt(reader.readLine().trim());
-        int numOfEdges = Integer.parseInt(reader.readLine().trim());
-        
-        for (int i = 0; i < numOfEdges; i++) {
-            String[] edgeInfo = reader.readLine().trim().split(" ");
-            int sourceVertex = Integer.parseInt(edgeInfo[0]);
-            int destinationVertex = Integer.parseInt(edgeInfo[1]);
-            int weight = Integer.parseInt(edgeInfo[2]);
 
-            graph.addVertex(sourceVertex);
-            graph.addVertex(destinationVertex);
-            graph.addEdge(sourceVertex, destinationVertex, weight);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+
+        String line;
+        int numVertices = 0;
+        int sourceVertex = 0;
+        int numEdges = 0;
+
+        // Read the file line by line
+        while ((line = reader.readLine()) != null) {
+            line = line.trim();
+
+            String[] parts = line.split(" ");
+
+            if (numVertices == 0) {
+                numVertices = Integer.parseInt(parts[0]);
+            } 
+            else if (sourceVertex == 0) {
+                sourceVertex = Integer.parseInt(parts[0]);
+            } 
+            else if (numEdges == 0) {
+                numEdges = Integer.parseInt(parts[0]);
+            } 
+            else {
+                int vertex = Integer.parseInt(parts[0]);
+                int destinationVertex = Integer.parseInt(parts[1]);
+                int weight = Integer.parseInt(parts[2]);
+
+                graph.addVertex(vertex);
+                graph.addVertex(destinationVertex);
+                graph.addEdge(vertex, destinationVertex, weight);
+            }
         }
+        reader.close();
         graph.printGraph();
     }
 }
-
-
