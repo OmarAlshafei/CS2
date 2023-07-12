@@ -117,7 +117,7 @@ public class Dijkstra {
         
         Dijkstra graph = new Dijkstra(sourceVertex, numVertices);
         
-        while (input.size() > i) {
+        while (numEdges*3 >= i) {
             vertex = input.get(i++);
             destinationVertex = input.get(i++);
             weight = input.get(i++);
