@@ -104,6 +104,8 @@ public class Dijkstra {
         int weight = -1;
         
         while(sc.hasNext()){
+        if(sc.hasNext("#"))
+            sc.nextLine();
         if (sc.hasNextInt())
             input.add(sc.nextInt());
         else
