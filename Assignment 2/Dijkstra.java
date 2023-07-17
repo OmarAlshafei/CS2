@@ -1,14 +1,17 @@
+// Omar Alshafei
+// Assignment 2
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+// graph class
 public class Dijkstra {
     private Set<Integer> vertices;
     private int[][] adjacencyMatrix;
     public int sourceVertex;
     public int numVertices;
-
-
+    // graph constructor
     public Dijkstra(int sourceVertex, int numVertices) {
         this.sourceVertex = sourceVertex;
         this.numVertices = numVertices;
@@ -19,11 +22,11 @@ public class Dijkstra {
             Arrays.fill(arr, 0);
         }
     }
-
+    // adds vertex to the graph
     public void addVertex(int vertex) {
         vertices.add(vertex);
     }
-
+    // adds edge and its weight to the graph
     public void addEdge(int source, int destination, int weight) {
         if (!vertices.contains(source))
             vertices.add(source);
@@ -31,55 +34,49 @@ public class Dijkstra {
         if(!vertices.contains(destination)){
             vertices.add(destination);
         }
-            
+        // set edge weight
         adjacencyMatrix[source][destination] = weight;
         adjacencyMatrix[destination][source] = weight;
     }
-
-    public void resizeMatrix() {
-        int size = vertices.size();
-        int[][] newMatrix = new int[size][size];
-
-        for (int i = 0; i < adjacencyMatrix.length; i++) {
-            for (int j = 0; j < adjacencyMatrix[i].length; j++) {
-                newMatrix[i][j] = adjacencyMatrix[i][j];
-            }
-        }
-
-        adjacencyMatrix = newMatrix;
-    }
-
-    
+    // perform dijkstra's algorithm
     public void dijkstraAlgorithm() {
+        // initialize the distance array
         int[] distance = new int[numVertices + 1];
+        // set the distance to max
         Arrays.fill(distance, Integer.MAX_VALUE);
-    
+        // initalize the parent array
         int[] parent = new int[numVertices + 1];
+        // set parents to -1
         Arrays.fill(parent, -1);
-    
+        // create a set to track visited verticies
         Set<Integer> visited = new HashSet<>();
-    
+        // set source vertex distance to 0
         distance[sourceVertex] = 0;
     
+        // loop until all the verticies have been visited
         while (visited.size() < vertices.size()) {
-            int currentVertex = -1;
+            int curVertex = -1;
             int minDistance = Integer.MAX_VALUE;
     
             for (int vertex : vertices) {
                 if (!visited.contains(vertex) && distance[vertex] < minDistance) {
-                    currentVertex = vertex;
+                    curVertex = vertex;
                     minDistance = distance[vertex];
                 }
             }
-            
-            visited.add(currentVertex);
-    
+            // set the current vertex as visited
+            visited.add(curVertex);
+            // set distances of the neighbors of the current vertex
             for (int neighbor : vertices) {
-                if (!visited.contains(neighbor) && adjacencyMatrix[currentVertex][neighbor] != 0) {
-                    int newDistance = distance[currentVertex] + adjacencyMatrix[currentVertex][neighbor];
+                if (!visited.contains(neighbor) && adjacencyMatrix[curVertex][neighbor] != 0) {
+                    // calculate the new distance
+                    int newDistance = distance[curVertex] + adjacencyMatrix[curVertex][neighbor];
+                    // if the new distance is smaller then the neighbor's distance
                     if (newDistance < distance[neighbor]) {
+                        // update the neighbor's distance
                         distance[neighbor] = newDistance;
-                        parent[neighbor] = currentVertex;
+                        // set current vertex as the parent
+                        parent[neighbor] = curVertex;
                     }
                 }
             }
@@ -87,22 +84,24 @@ public class Dijkstra {
         
         distance[sourceVertex] = -1;
         System.out.println(numVertices);
+        // print out the vertex, its distance, and its parent
         for (int vertex : vertices)
             System.out.println(vertex + " " +distance[vertex]+ " " + parent[vertex]);
     }
-    
+    // driver method
     public static void main(String[] args) throws IOException {
-
+        // input file
         String file = "cop3503-asn2-input.txt";
-
+        // open scanner
         Scanner sc = new Scanner(new FileReader(file));
-        
+        // create list to store input from the file
         List<Integer> input  = new ArrayList<>();
         
         int vertex = -1;
         int destinationVertex = -1;
         int weight = -1;
         
+        // scan in and store the input from the file
         while(sc.hasNext()){
         if(sc.hasNext("#"))
             sc.nextLine();
@@ -113,12 +112,15 @@ public class Dijkstra {
         }        
         
         int i = 0;
+        // store the number of verticies
         int numVertices = input.get(i++);
+        // store the source vertex
         int sourceVertex = input.get(i++);
+        // store the number of edges
         int numEdges = input.get(i++);
-        
+        // create the graph
         Dijkstra graph = new Dijkstra(sourceVertex, numVertices);
-        
+        // fill in the graph with the input
         while (numEdges*3 >= i) {
             vertex = input.get(i++);
             destinationVertex = input.get(i++);
@@ -127,8 +129,9 @@ public class Dijkstra {
             graph.addVertex(destinationVertex);
             graph.addEdge(vertex, destinationVertex, weight);
         }
-
+        // close scanner
         sc.close();
+        // call method to perform dijksta's algorithm on the graph
         graph.dijkstraAlgorithm();
 
     }
