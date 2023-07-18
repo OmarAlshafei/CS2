@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SkipListTestHarness",
+            "request": "launch",
+            "mainClass": "SkipListTestHarness",
+            "projectName": "CS2_1a66d3ce"
+        },
+        {
+            "type": "java",
             "name": "Dijkstra",
             "request": "launch",
             "mainClass": "Dijkstra",

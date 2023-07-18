@@ -38,37 +38,24 @@ public class Dijkstra {
         adjacencyMatrix[source][destination] = weight;
         adjacencyMatrix[destination][source] = weight;
     }
-    // perform dijkstra's algorithm
-    public void dijkstraAlgorithm() {
-        // initialize the distance array
-        int[] distance = new int[numVertices + 1];
-        // set the distance to max
-        Arrays.fill(distance, Integer.MAX_VALUE);
-        // initalize the parent array
-        int[] parent = new int[numVertices + 1];
-        // set parents to -1
-        Arrays.fill(parent, -1);
-        // create a set to track visited verticies
-        Set<Integer> visited = new HashSet<>();
-        // set source vertex distance to 0
-        distance[sourceVertex] = 0;
     
+    public void visitVerticies(Set<Integer> visitedVerticies, int[] distance, int[] parent){
         // loop until all the verticies have been visited
-        while (visited.size() < vertices.size()) {
+        while (visitedVerticies.size() < vertices.size()) {
             int curVertex = -1;
             int minDistance = Integer.MAX_VALUE;
     
             for (int vertex : vertices) {
-                if (!visited.contains(vertex) && distance[vertex] < minDistance) {
+                if (!visitedVerticies.contains(vertex) && distance[vertex] < minDistance) {
                     curVertex = vertex;
                     minDistance = distance[vertex];
                 }
             }
             // set the current vertex as visited
-            visited.add(curVertex);
+            visitedVerticies.add(curVertex);
             // set distances of the neighbors of the current vertex
             for (int neighbor : vertices) {
-                if (!visited.contains(neighbor) && adjacencyMatrix[curVertex][neighbor] != 0) {
+                if (!visitedVerticies.contains(neighbor) && adjacencyMatrix[curVertex][neighbor] != 0) {
                     // calculate the new distance
                     int newDistance = distance[curVertex] + adjacencyMatrix[curVertex][neighbor];
                     // if the new distance is smaller then the neighbor's distance
@@ -81,6 +68,25 @@ public class Dijkstra {
                 }
             }
         }
+    }
+    
+    // perform dijkstra's algorithm
+    public void dijkstraAlgorithm() {
+        // initialize the distance array
+        int[] distance = new int[numVertices + 1];
+        // set the distance to max
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        // initalize the parent array
+        int[] parent = new int[numVertices + 1];
+        // set parents to -1
+        Arrays.fill(parent, -1);
+        // create a set to track visited verticies
+        Set<Integer> visitedVerticies = new HashSet<>();
+        // set source vertex distance to 0
+        distance[sourceVertex] = 0;
+    
+        // call method to visit all verticies
+        visitVerticies(visitedVerticies, distance, parent);
         
         distance[sourceVertex] = -1;
         System.out.println(numVertices);
@@ -113,18 +119,25 @@ public class Dijkstra {
         
         int i = 0;
         // store the number of verticies
-        int numVertices = input.get(i++);
+        int numVertices = input.get(0);
+        input.remove(0);
         // store the source vertex
-        int sourceVertex = input.get(i++);
+        int sourceVertex = input.get(0);
+        input.remove(0);
         // store the number of edges
-        int numEdges = input.get(i++);
+        int numEdges = input.get(0);
+        input.remove(0);
+        
         // create the graph
         Dijkstra graph = new Dijkstra(sourceVertex, numVertices);
         // fill in the graph with the input
-        while (numEdges*3 >= i) {
-            vertex = input.get(i++);
-            destinationVertex = input.get(i++);
-            weight = input.get(i++);
+        while (!input.isEmpty()){
+            vertex = input.get(0);
+            input.remove(0);
+            destinationVertex = input.get(0);
+            input.remove(0);
+            weight = input.get(0);
+            input.remove(0);
             graph.addVertex(vertex);
             graph.addVertex(destinationVertex);
             graph.addEdge(vertex, destinationVertex, weight);
