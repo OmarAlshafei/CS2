@@ -2,6 +2,7 @@
 // Assignment 2
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -39,6 +40,30 @@ public class Dijkstra {
         adjacencyMatrix[destination][source] = weight;
     }
     
+    // perform dijkstra's algorithm
+    public void dijkstraAlgorithm() throws IOException {
+        // initialize the distance array
+        int[] distance = new int[numVertices + 1];
+        // set the distance to max
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        // initalize the parent array
+        int[] parent = new int[numVertices + 1];
+        // set parents to -1
+        Arrays.fill(parent, -1);
+        // create a set to track visited verticies
+        Set<Integer> visitedVerticies = new HashSet<>();
+        // set source vertex distance to 0
+        distance[sourceVertex] = 0;
+    
+        // call method to visit all verticies
+        visitVerticies(visitedVerticies, distance, parent);
+        
+        distance[sourceVertex] = -1;
+        // print out the vertex, its distance, and its parent
+        writeToFile(distance, parent);
+    }
+    
+    // visits all the verticies in the graph and updates distance and parent values
     public void visitVerticies(Set<Integer> visitedVerticies, int[] distance, int[] parent){
         // loop until all the verticies have been visited
         while (visitedVerticies.size() < vertices.size()) {
@@ -69,31 +94,17 @@ public class Dijkstra {
             }
         }
     }
-    
-    // perform dijkstra's algorithm
-    public void dijkstraAlgorithm() {
-        // initialize the distance array
-        int[] distance = new int[numVertices + 1];
-        // set the distance to max
-        Arrays.fill(distance, Integer.MAX_VALUE);
-        // initalize the parent array
-        int[] parent = new int[numVertices + 1];
-        // set parents to -1
-        Arrays.fill(parent, -1);
-        // create a set to track visited verticies
-        Set<Integer> visitedVerticies = new HashSet<>();
-        // set source vertex distance to 0
-        distance[sourceVertex] = 0;
-    
-        // call method to visit all verticies
-        visitVerticies(visitedVerticies, distance, parent);
+    // writes out the output to a file
+    private void writeToFile(int[] distance, int[] parent) throws IOException {
+        FileWriter fw = new FileWriter("cop3503-asn2-output-alshafei-omar.txt");
+        fw.write(numVertices +"\n");
         
-        distance[sourceVertex] = -1;
-        System.out.println(numVertices);
-        // print out the vertex, its distance, and its parent
         for (int vertex : vertices)
-            System.out.println(vertex + " " +distance[vertex]+ " " + parent[vertex]);
+            fw.write(vertex + " " +distance[vertex]+ " " + parent[vertex] +"\n");
+            
+        fw.close();
     }
+    
     // driver method
     public static void main(String[] args) throws IOException {
         // input file
@@ -117,7 +128,6 @@ public class Dijkstra {
             sc.next();
         }        
         
-        int i = 0;
         // store the number of verticies
         int numVertices = input.get(0);
         input.remove(0);
