@@ -107,11 +107,9 @@ public class Dijkstra {
     
     // driver method
     public static void main(String[] args) throws IOException {
-        // input file
-        String file = "cop3503-asn2-input.txt";
-        // open scanner
-        Scanner sc = new Scanner(new FileReader(file));
-        // create list to store input from the file
+        // scan input file
+        Scanner sc = new Scanner(new FileReader("cop3503-asn2-input.txt"));
+        // create a list to store the input from the file
         List<Integer> input  = new ArrayList<>();
         
         int vertex = -1;
