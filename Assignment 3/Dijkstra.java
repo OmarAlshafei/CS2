@@ -14,6 +14,7 @@ public class Dijkstra {
     private int[] parent;
     public int sourceVertex;
     public int numVertices;
+    public static final int INF = Integer.MAX_VALUE;
 
     // graph constructor
     public Dijkstra(int sourceVertex, int numVertices) {
@@ -48,63 +49,35 @@ public class Dijkstra {
     }
 
     // performs Dijkstra's algorithm
-    public void dijkstraAlgorithm() {
-        // initialize the weight and parent arrays
-        Arrays.fill(weight, Integer.MAX_VALUE);
-        Arrays.fill(parent, -1);
-        // set the source vertex weight to -1
-        weight[sourceVertex] = -1;
-        // create a set to track unvisted verticies
-        Set<Integer> unvisitedVertices = new HashSet<>(vertices);
-        
-        // loop to find the shortest path from the source vertex to other vertices
-        while (!unvisitedVertices.isEmpty()) {
-            
-            // calls method to find the vertex with the minimum weight that is unvisited
-            int current = findMinWeight(unvisitedVertices);
-            
-            if (current == -1) 
-                break;
+    public void bellmanFordAlgorithm() {
+        Arrays.fill(weight, INF);
+        Arrays.fill(parent, 0);
+        weight[sourceVertex] = 0;
 
-            unvisitedVertices.remove(current);
-            
-            // loop through neighbors of the current vertex and their update weights
-            for (int neighbor : vertices) {
-                
-                // check incase neighbor is visited or edge doesnt exist
-                if (!unvisitedVertices.contains(neighbor) || adjacencyMatrix[current][neighbor] == 0)
-                    continue;
-
-                int newWeight;
-                if (weight[current] == -1) {
-                    // if current is the source vertex the new weight is the weight of the edge from current to neighbor
-                    newWeight = adjacencyMatrix[current][neighbor];
-                }
-                // calculate the new weight by adding the current weight and the edge weight
-                else
-                    newWeight = weight[current] + adjacencyMatrix[current][neighbor];
-                // updates weight and parent values if the new weight is smaller than the current weight, 
-                if (newWeight < weight[neighbor]) {
-                    weight[neighbor] = newWeight;
-                    parent[neighbor] = current;
+        // Relax edges repeatedly
+        for (int i = 0; i < numVertices - 1; i++) {
+            for (int src = 1; src <= numVertices; src++) {
+                for (int dest = 1; dest <= numVertices; dest++) {
+                    if (adjacencyMatrix[src][dest] != 0) {
+                        if (weight[src] != INF && weight[src] + adjacencyMatrix[src][dest] < weight[dest]) {
+                            weight[dest] = weight[src] + adjacencyMatrix[src][dest];
+                            parent[dest] = src;
+                        }
+                    }
                 }
             }
         }
-    }
 
-    // finds the vertex with the lowest weight
-    private int findMinWeight(Set<Integer> unvisitedVertices) {
-        int minWeight = Integer.MAX_VALUE;
-        int minVertex = -1;
-
-        for (int vertex : unvisitedVertices) {
-            if (weight[vertex] < minWeight) {
-                minWeight = weight[vertex];
-                minVertex = vertex;
+        // Check for negative-weight cycles
+        for (int src = 1; src <= numVertices; src++) {
+            for (int dest = 1; dest <= numVertices; dest++) {
+                if (adjacencyMatrix[src][dest] != 0) {
+                    if (weight[src] != INF && weight[src] + adjacencyMatrix[src][dest] < weight[dest]) {
+                        return;
+                    }
+                }
             }
         }
-        // returns vertex with the lowest weight
-        return minVertex;
     }
 
     // writes out the output to a file
@@ -166,7 +139,7 @@ public class Dijkstra {
         // close scanner
         sc.close();
         // call method to perform Dijkstra's algorithm on the graph
-        graph.dijkstraAlgorithm();
+        graph.bellmanFordAlgorithm();
         // write the output to file
         graph.writeToFile();
     }

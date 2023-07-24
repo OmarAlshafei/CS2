@@ -80,10 +80,11 @@ public class Dijkstra {
                     // if current is the source vertex the new weight is the weight of the edge from current to neighbor
                     newWeight = adjacencyMatrix[current][neighbor];
                 }
-                // calculate the new weight by adding the current weight and the edge weight
-                else
+                else {
+                    // calculate the new weight by adding the current weight and the edge weight
                     newWeight = weight[current] + adjacencyMatrix[current][neighbor];
-                // updates weight and parent values if the new weight is smaller than the current weight, 
+                }
+                // updates weight and parent values if the new weight is smaller than the current weight
                 if (newWeight < weight[neighbor]) {
                     weight[neighbor] = newWeight;
                     parent[neighbor] = current;

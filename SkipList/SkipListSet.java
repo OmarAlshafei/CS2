@@ -10,16 +10,16 @@ import java.lang.UnsupportedOperationException;
 public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
 
 	ArrayList<SkipListSetItem> head = new ArrayList<SkipListSetItem>();
-	public int max_height; // max height every skip list item can be
-	public int element_count; // tracks number of elements in skip list
+	public int maxHeight; // max height every skip list item can be
+	public int elementCount; // tracks number of elements in skip list
 
 	public SkipListSet () {
 		int i;
-		element_count = 0;
-		max_height = 3; // minimum height for skiplists will be 3
+		elementCount = 0;
+		maxHeight = 3; // minimum height for skiplists will be 3
 		
 		// Initialize the head array
-		for (i = 0; i < max_height; i++) 
+		for (i = 0; i < maxHeight; i++) 
 			head.add(null);
 		
 	}
@@ -27,11 +27,11 @@ public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
 	public SkipListSet (Collection<? extends T> c) {
 		// Initializes the variables to an empty skiplist, then add each collection val
 		int i;
-		element_count = 0;
-		max_height = 3;
+		elementCount = 0;
+		maxHeight = 3;
 		
 		// Initialize the head array
-		for (i = 0; i < max_height; i++) 
+		for (i = 0; i < maxHeight; i++) 
 			head.add(null);
 
 		// Add all the vals from the collection into our skiplist
@@ -51,20 +51,19 @@ public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
 	// Returns the current size of the skiplist (number of items)
 	@Override
 	public int size() {
-		return element_count;
+		return elementCount;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return element_count == 0 ? true : false;
+		return (elementCount == 0);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean contains(Object o) {
 
-		
-		int i = max_height - 1;
+		int i = maxHeight - 1;
 		ArrayList<SkipListSetItem> temp = new ArrayList<SkipListSetItem>(); // temp pointer
 		
 		temp = head;
@@ -102,45 +101,41 @@ public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
 	@Override
 	public Iterator<T> iterator() {
 
-		SkipListSetIterator<T> iterate = new SkipListSetIterator<T>();
+		SkipListSetIterator<T> listIterator = new SkipListSetIterator<T>();
 		
-		return iterate;
+		return listIterator;
 	}
 
 	@Override
 	public Object[] toArray() {
-		int i = 0;
-		Object obj[] = new Object[element_count];
-		
-		Iterator<T> it = iterator();
-		
-		while (it.hasNext()) {
-			obj[i] = it.next();
-			i++;
+		Object arr[] = new Object[elementCount];
+		Iterator<T> iterator = iterator();
+
+		int idx = 0;
+		while (iterator.hasNext()) {
+			arr[idx] = iterator.next();
+			idx++;
 		}
-		
-		return obj;
+		return arr;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <E> E[] toArray(E[] a) {
+	public <E> E[] toArray(E[] arr) {
 		
-		int i = 0;
-		Iterator<T> it = iterator();
+		Iterator<T> iterator = iterator();
 
-		if (a.length < element_count) { 
-			  a = (E[]) Array.newInstance(a.getClass().getComponentType(), element_count);
-		} else if (a.length > element_count) {
-			  a[element_count] = null;
+		if (arr.length < elementCount) { 
+			  arr = (E[]) Array.newInstance(arr.getClass().getComponentType(), elementCount);
+		} else if (arr.length > elementCount) {
+			  arr[elementCount] = null;
 		}
-		
-		while (it.hasNext()) {
-			a[i] = (E) it.next();
-			i++;
+		int idx = 0;		
+		while (iterator.hasNext()) {
+			arr[idx] = (E) iterator.next();
+			idx++;
 		}
-		
-		return a;
+		return arr;
 	}
 
 	
@@ -150,52 +145,52 @@ public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
 		if (this.contains(e))
 			return false;
 		
-		int i = max_height - 1;
+		int idx = maxHeight - 1;
 		ArrayList<SkipListSetItem> temp = new ArrayList<SkipListSetItem>(); // temp pointer
 		
 		SkipListSetItem item = new SkipListSetItem(e);
 		
 		temp = head;
 		
-		while (i >= 0) { // i will represent the height we are at in the skiplist
+		while (idx >= 0) { // i will represent the height we are at in the skiplist
 			
 			// If the element to the right is null, check to see if we can add at that height
-			if (temp.get(i) == null) {
-				if (item.height - 1 >= i) {
-					item.arr.set(i, temp.get(i));
-					temp.set(i, item);
+			if (temp.get(idx) == null) {
+				if (item.height - 1 >= idx) {
+					item.arr.set(idx, temp.get(idx));
+					temp.set(idx, item);
 				}
 				
-				i--;
+				idx--;
 				continue;
 			}
 			
 			// If the element to the right is greater than the val passed, check to see if we can add at that height
-			else if (temp.get(i).val.compareTo(e) > 0 || temp.get(i).val == null) {
-				if (item.height - 1 >= i) {
-					item.arr.set(i, temp.get(i));
-					temp.set(i, item);
-					i--;
+			else if (temp.get(idx).val.compareTo(e) > 0 || temp.get(idx).val == null) {
+				if (item.height - 1 >= idx) {
+					item.arr.set(idx, temp.get(idx));
+					temp.set(idx, item);
+					idx--;
 					continue;
 					
 				} else {
-					i--;
+					idx--;
 					continue;
 				}
 			} 
 			
 			// If the element to the right is less than the val passed, continue traversing to the right
-			else if (temp.get(i).val.compareTo(e) < 0){
-				temp = temp.get(i).arr;
+			else if (temp.get(idx).val.compareTo(e) < 0){
+				temp = temp.get(idx).arr;
 			}
 		}
 		
 		// Increment the element_count since we've successfully added
-		element_count++;
+		elementCount++;
 		
 		// If the element_count reaches a power of 2 for max height, increment the max height and add to the head arraylist
-		if (element_count >= (Math.pow(2, max_height))) {
-			max_height++;
+		if (elementCount >= (Math.pow(2, maxHeight))) {
+			maxHeight++;
 			head.add(null);
 		}
 		
@@ -207,48 +202,48 @@ public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
 	@Override
 	public boolean remove(Object o) {
 		
-		int i = max_height - 1;
+		int idx = maxHeight - 1;
 		int remove = 0; // tracker for checking if we actually change the skiplist
 		ArrayList<SkipListSetItem> temp = new ArrayList<SkipListSetItem>(); // temp pointer
 		
 		temp = head;
 		
-		while (i >= 0) { // i will represent the height we are at in the skiplist
+		while (idx >= 0) { // i will represent the height we are at in the skiplist
 			
 			// If the element to the right is null, traverse down
-			if (temp.get(i) == null) {
-				i--;
+			if (temp.get(idx) == null) {
+				idx--;
 				continue;
 			}
 			
 			// If the element to the right is the val we are looking to remove, remove it and re-link the nodes to it's left to point to the right of the element we are removing
-			if (temp.get(i).val.compareTo((T)o) == 0) {
+			if (temp.get(idx).val.compareTo((T)o) == 0) {
 				remove = 1;
-				temp.set(i, temp.get(i).arr.get(i));
-				i--;
+				temp.set(idx, temp.get(idx).arr.get(idx));
+				idx--;
 				continue;
 			} 
 			
 			// If the element to the right is greater than the val we are looking for, traverse down
-			else if (temp.get(i).val.compareTo((T)o) > 0 || temp.get(i).val == null) {
-				i--;
+			else if (temp.get(idx).val.compareTo((T)o) > 0 || temp.get(idx).val == null) {
+				idx--;
 				continue;
 			} 
 			
 			// If the element to the right is less than the val we are looking for, keep traversing right
-			else if (temp.get(i).val.compareTo((T)o) < 0){
-				temp = temp.get(i).arr;
+			else if (temp.get(idx).val.compareTo((T)o) < 0){
+				temp = temp.get(idx).arr;
 			}
 		}
 		
 		// If we've ever changed the skiplist (successfully removed something), decrement element_count and return true
 		if (remove == 1) {
-			element_count--;
+			elementCount--;
 			
 			// If the element_count is a power of 2 of the max_height - 1, that means we need to decrement max height and remove the last index of the head arraylist
-			if (element_count <= Math.pow(2, max_height - 1) && max_height != 3) {
-				max_height--;
-				head.remove(max_height);
+			if (elementCount <= Math.pow(2, maxHeight - 1) && maxHeight != 3) {
+				maxHeight--;
+				head.remove(maxHeight);
 			}
 			
 			return true;
@@ -283,13 +278,13 @@ public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
 	public boolean retainAll(Collection<?> c) {
 
 		boolean track = false;
-		Iterator<T> it = iterator();
-		T val;
+		Iterator<T> iterator = iterator();
+		T value;
 		
-		while (it.hasNext()) {
-			val = it.next();
-			if (!c.contains(val)) {
-				remove(val);
+		while (iterator.hasNext()) {
+			value = iterator.next();
+			if (!c.contains(value)) {
+				remove(value);
 				track = true;
 			}
 		}
@@ -312,16 +307,16 @@ public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
 	@Override
 	public void clear() {
 		int i;
-		while (max_height - 1 >= 0) {
-			head.remove(max_height - 1);
-			max_height--;
+		while (maxHeight - 1 >= 0) {
+			head.remove(maxHeight - 1);
+			maxHeight--;
 		}
 		
 		// Reset the initial vals of the skiplist
-		max_height = 3;
-		element_count = 0;
+		maxHeight = 3;
+		elementCount = 0;
 		
-		for (i = 0; i < max_height; i++) 
+		for (i = 0; i < maxHeight; i++) 
 			head.add(null);
 	}
 	
@@ -384,7 +379,7 @@ public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
 
 	@Override
 	public T last() {
-		int i = max_height - 1;
+		int i = maxHeight - 1;
 		T val = null;
 		ArrayList<SkipListSetItem> temp = new ArrayList<SkipListSetItem>(); // temp pointer
 		temp = head;
@@ -409,7 +404,7 @@ public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
 		Random rand = new Random();
 		boolean tf = rand.nextBoolean();
 		
-		while (tf == true && height < max_height) {
+		while (tf == true && height < maxHeight) {
 			height++;
 			tf = rand.nextBoolean();
 		}
