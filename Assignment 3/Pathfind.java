@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 
 // this program creates a graph and then implements dijkstras algorithm on the graph
-public class Dijkstra {
+public class Pathfind {
     private Set<Integer> vertices;
     private int[][] adjacencyMatrix;
     private int[] weight;
@@ -17,7 +17,7 @@ public class Dijkstra {
     public static final int INF = Integer.MAX_VALUE;
 
     // graph constructor
-    public Dijkstra(int sourceVertex, int numVertices) {
+    public Pathfind(int sourceVertex, int numVertices) {
         this.sourceVertex = sourceVertex;
         this.numVertices = numVertices;
         vertices = new HashSet<>();
@@ -123,7 +123,7 @@ public class Dijkstra {
         input.remove(0);
 
         // create the graph
-        Dijkstra graph = new Dijkstra(sourceVertex, numVertices);
+        Pathfind graph = new Pathfind(sourceVertex, numVertices);
         // fill in the graph with the input
         while (!input.isEmpty()) {
             vertex = input.get(0);
