@@ -10,20 +10,22 @@ import java.util.*;
 public class Pathfind {
     private Set<Integer> vertices;
     private int[][] adjacencyMatrix;
-    private int[] weight;
+    private int[] distance;
     private int[] parent;
     public int sourceVertex;
     public int numVertices;
+    int[][] fwDistance;
     public static final int INF = Integer.MAX_VALUE;
 
     // graph constructor
     public Pathfind(int sourceVertex, int numVertices) {
-        this.sourceVertex = sourceVertex;
-        this.numVertices = numVertices;
         vertices = new HashSet<>();
         adjacencyMatrix = new int[numVertices + 1][numVertices + 1];
-        weight = new int[numVertices + 1];
+        distance = new int[numVertices + 1];
         parent = new int[numVertices + 1];
+        this.sourceVertex = sourceVertex;
+        this.numVertices = numVertices;
+        fwDistance = new int[numVertices + 1][numVertices + 1];
 
         for (int[] arr : adjacencyMatrix) {
             Arrays.fill(arr, 0);
@@ -48,49 +50,103 @@ public class Pathfind {
         adjacencyMatrix[destination][source] = weight;
     }
 
-    // performs Dijkstra's algorithm
+    // performs Bellman Ford's algorithm
     public void bellmanFordAlgorithm() {
-        Arrays.fill(weight, INF);
+        Arrays.fill(distance, INF);
         Arrays.fill(parent, 0);
-        weight[sourceVertex] = 0;
+        distance[sourceVertex] = 0;
 
         // Relax edges repeatedly
         for (int i = 0; i < numVertices - 1; i++) {
-            for (int src = 1; src <= numVertices; src++) {
-                for (int dest = 1; dest <= numVertices; dest++) {
-                    if (adjacencyMatrix[src][dest] != 0) {
-                        if (weight[src] != INF && weight[src] + adjacencyMatrix[src][dest] < weight[dest]) {
-                            weight[dest] = weight[src] + adjacencyMatrix[src][dest];
-                            parent[dest] = src;
+            for (int source = 1; source <= numVertices; source++) {
+                for (int destination = 1; destination <= numVertices; destination++) {
+                    if (adjacencyMatrix[source][destination] != 0) {
+                        if (distance[source] != INF && distance[source] + adjacencyMatrix[source][destination] < distance[destination]) {
+                            distance[destination] = distance[source] + adjacencyMatrix[source][destination];
+                            parent[destination] = source;
                         }
                     }
                 }
             }
         }
 
-        // Check for negative-weight cycles
+        // Check for negative-distance cycles
         for (int src = 1; src <= numVertices; src++) {
             for (int dest = 1; dest <= numVertices; dest++) {
                 if (adjacencyMatrix[src][dest] != 0) {
-                    if (weight[src] != INF && weight[src] + adjacencyMatrix[src][dest] < weight[dest]) {
+                    if (distance[src] != INF && distance[src] + adjacencyMatrix[src][dest] < distance[dest]) {
                         return;
                     }
                 }
             }
         }
     }
-
-    // writes out the output to a file
-    private void writeToFile() throws IOException {
-        FileWriter fw = new FileWriter("cop3503-asn2-output-alshafei-omar.txt");
-        fw.write(numVertices + "\n");
-
-        for (int vertex : vertices)
-            fw.write(vertex + " " + weight[vertex] + " " + parent[vertex] + "\n");
-
-        fw.close();
+    
+    // performs Floyd Warshall's algorithm
+    public void floydWarshallAlgorithm() {
+        // Initialize the distance matrix with the adjacency matrix
+        for (int i = 1; i <= numVertices; i++) {
+            for (int j = 1; j <= numVertices; j++) {
+                // if the points are the same set weight to zero
+                if (i == j) 
+                    fwDistance[i][j] = 0;
+                // set the weight if edge is valid
+                else if (adjacencyMatrix[i][j] != 0) 
+                    fwDistance[i][j] = adjacencyMatrix[i][j];
+                // else set to infinity
+                else
+                    fwDistance[i][j] = INF;
+            }
+        }
+    
+        // Compute all-pairs shortest paths
+        for (int k = 1; k <= numVertices; k++)
+            for (int i = 1; i <= numVertices; i++)
+                for (int j = 1; j <= numVertices; j++)
+                    if (fwDistance[i][k] != INF && fwDistance[k][j] != INF) // continue if paths are not infinity
+                        if (fwDistance[i][k] + fwDistance[k][j] < fwDistance[i][j]) // if i to k plus k to j is less then i to j
+                            fwDistance[i][j] = fwDistance[i][k] + fwDistance[k][j]; // then set it as i to j 
+                                
+        // Update the distance and parent arrays with the results
+        for (int i = 1; i <= numVertices; i++) {
+            for (int j = 1; j <= numVertices; j++) {
+                if (fwDistance[i][j] != INF) {
+                    distance[j] = fwDistance[sourceVertex][j];
+                    parent[j] = i;
+                }
+            }
+        }
     }
-
+        
+    // writes out the output to a file
+    private void outputBF(FileWriter bf) throws IOException {
+        bf.write("Bellman Ford's Output:\n");
+        bf.write(numVertices + "\n");
+        for (int vertex : vertices)
+            bf.write(vertex + " " + distance[vertex] + " " + parent[vertex] + "\n");
+    }
+    
+    // write out the Ford-Warshall algorithm to file
+    private void outputFW(FileWriter fw) throws IOException {
+        fw.write("Floyd Warshall's Output:\n\n");
+        String x = "   ";
+        fw.write(x);
+        for (int vertex : vertices){
+            fw.write(String.format("%3d", vertex));
+        }
+        
+        fw.write("\n\n");
+    
+        for (int vertex : vertices) {
+            fw.write(String.format(vertex + "  "));
+            for (int j = 1; j <= numVertices; j++) {
+                fw.write(String.format("%3d", fwDistance[vertex][j]));
+            }
+            fw.write("\n");
+        }
+    }
+    
+    
     // driver method
     public static void main(String[] args) throws IOException {
         // scan input file
@@ -138,9 +194,23 @@ public class Pathfind {
         }
         // close scanner
         sc.close();
-        // call method to perform Dijkstra's algorithm on the graph
+        
+        // create file for Bellman Ford's algorithm
+        FileWriter bf = new FileWriter("cop3503-asn2-output-alshafei-omar-bf.txt");
+        // call method to perform Bellman Ford's algorithm
         graph.bellmanFordAlgorithm();
         // write the output to file
-        graph.writeToFile();
+        graph.outputBF(bf);
+        // close file for Bellman Ford's algorithm
+        bf.close();
+        
+        // create file for Floyd Warshall's algorithm
+        FileWriter fw = new FileWriter("cop3503-asn2-output-alshafei-omar-fw.txt");
+        // call method to perform Floyd Warshall's algorithm
+        graph.floydWarshallAlgorithm();
+        // write the output to file
+        graph.outputFW(fw);
+        // close file for Floyd Warshall's algorithm
+        fw.close();
     }
 }
