@@ -174,16 +174,6 @@ public class Pathfind {
                     if (fwDistance[i][k] != INF && fwDistance[k][j] != INF) // continue if paths are not infinity
                         if (fwDistance[i][k] + fwDistance[k][j] < fwDistance[i][j]) // if i to k plus k to j is less then i to j
                             fwDistance[i][j] = fwDistance[i][k] + fwDistance[k][j]; // then set it as i to j 
-                                
-        // update the distance and parent arrays with the results
-        for (int i = 1; i <= numVertices; i++) {
-            for (int j = 1; j <= numVertices; j++) {
-                if (fwDistance[i][j] != INF) {
-                    distance[j] = fwDistance[sourceVertex][j];
-                    parent[j] = i;
-                }
-            }
-        }
     }
         
     // writes the algorithm output to a file

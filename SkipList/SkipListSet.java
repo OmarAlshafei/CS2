@@ -1,480 +1,429 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.SortedSet;
-import java.lang.reflect.Array;
-import java.lang.UnsupportedOperationException;
+// Omar Alshafei
+// Project
 
-public class SkipListSet <T extends Comparable<T>> implements SortedSet<T> {
+import java.util.*;
 
-	ArrayList<SkipListSetItem> head = new ArrayList<SkipListSetItem>();
-	public int maxHeight; // max height every skip list item can be
-	public int elementCount; // tracks number of elements in skip list
+// set class
+public class SkipListSet <T extends Comparable<T>> implements SortedSet<T>{
 
-	public SkipListSet () {
-		int i;
-		elementCount = 0;
-		maxHeight = 3; // minimum height for skiplists will be 3
-		
-		// Initialize the head array
-		for (i = 0; i < maxHeight; i++) 
-			head.add(null);
-		
-	}
-	
-	public SkipListSet (Collection<? extends T> c) {
-		// Initializes the variables to an empty skiplist, then add each collection val
-		int i;
-		elementCount = 0;
-		maxHeight = 3;
-		
-		// Initialize the head array
-		for (i = 0; i < maxHeight; i++) 
-			head.add(null);
+    // node class
+    private class SkipListSetItem{
 
-		// Add all the vals from the collection into our skiplist
-		addAll(c);
-		
-	}
-	
-	// Additional print function, just prints all the vals in the skiplist line by line
-	public void print() {
-		Iterator<T> it = iterator();
-		
-		while (it.hasNext()) {
-			System.out.println(it.next());
-		}
-	}
-	
-	// Returns the current size of the skiplist (number of items)
-	@Override
-	public int size() {
-		return elementCount;
-	}
+        // array used to represent height
+        private ArrayList <SkipListSetItem> arr = new ArrayList<SkipListSetItem>();
+        // item value
+        private T value;      
+        // item height
+        private int height;     
 
-	@Override
-	public boolean isEmpty() {
-		return (elementCount == 0);
-	}
+        // constructor
+        public SkipListSetItem(){
+            value = null;
+            height = 1;
+        }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean contains(Object o) {
+        // constructor
+        public SkipListSetItem(T o){
+            value = o;
+            height = randHeight();
 
-		int i = maxHeight - 1;
-		ArrayList<SkipListSetItem> temp = new ArrayList<SkipListSetItem>(); // temp pointer
-		
-		temp = head;
-		
-		// Traverse each level till you finished traversing the bottom level
-		while (i >= 0) { // i will represent the height we are at in the skiplist
-			
-			// If the element to the right is null, traverse down
-			if (temp.get(i) == null) {
-				i--;
-				continue;
-			}
-			
-			// If the element to the right is the val we are looking for, return true
-			if (temp.get(i).val.compareTo((T)o) == 0) {
-				return true;
-			} 
-			
-			// If the element to the right is greater than the passed val, traverse down from the current element position
-			else if (temp.get(i).val.compareTo((T)o) > 0 || temp.get(i).val == null) {
-				i--;
-				continue;
-			} 
-			
-			// If the element to the right is less than the passed val, keep traversing right
-			else if (temp.get(i).val.compareTo((T)o) < 0){
-				temp = temp.get(i).arr;
-			}
-		}
-		
-		// If you haven't found it in the skiplist return false
-		return false;
-	}
+            for(int i = 0; i < height; i++)
+                arr.add(null);
+        }
+    }
 
-	@Override
-	public Iterator<T> iterator() {
-
-		SkipListSetIterator<T> listIterator = new SkipListSetIterator<T>();
-		
-		return listIterator;
-	}
-
-	@Override
-	public Object[] toArray() {
-		Object arr[] = new Object[elementCount];
-		Iterator<T> iterator = iterator();
-
-		int idx = 0;
-		while (iterator.hasNext()) {
-			arr[idx] = iterator.next();
-			idx++;
-		}
-		return arr;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <E> E[] toArray(E[] arr) {
-		
-		Iterator<T> iterator = iterator();
-
-		if (arr.length < elementCount) { 
-			  arr = (E[]) Array.newInstance(arr.getClass().getComponentType(), elementCount);
-		} else if (arr.length > elementCount) {
-			  arr[elementCount] = null;
-		}
-		int idx = 0;		
-		while (iterator.hasNext()) {
-			arr[idx] = (E) iterator.next();
-			idx++;
-		}
-		return arr;
-	}
-
-	
-	@Override
-	public boolean add(T e) {
-		
-		if (this.contains(e))
-			return false;
-		
-		int idx = maxHeight - 1;
-		ArrayList<SkipListSetItem> temp = new ArrayList<SkipListSetItem>(); // temp pointer
-		
-		SkipListSetItem item = new SkipListSetItem(e);
-		
-		temp = head;
-		
-		while (idx >= 0) { // i will represent the height we are at in the skiplist
-			
-			// If the element to the right is null, check to see if we can add at that height
-			if (temp.get(idx) == null) {
-				if (item.height - 1 >= idx) {
-					item.arr.set(idx, temp.get(idx));
-					temp.set(idx, item);
-				}
-				
-				idx--;
-				continue;
-			}
-			
-			// If the element to the right is greater than the val passed, check to see if we can add at that height
-			else if (temp.get(idx).val.compareTo(e) > 0 || temp.get(idx).val == null) {
-				if (item.height - 1 >= idx) {
-					item.arr.set(idx, temp.get(idx));
-					temp.set(idx, item);
-					idx--;
-					continue;
-					
-				} else {
-					idx--;
-					continue;
-				}
-			} 
-			
-			// If the element to the right is less than the val passed, continue traversing to the right
-			else if (temp.get(idx).val.compareTo(e) < 0){
-				temp = temp.get(idx).arr;
-			}
-		}
-		
-		// Increment the element_count since we've successfully added
-		elementCount++;
-		
-		// If the element_count reaches a power of 2 for max height, increment the max height and add to the head arraylist
-		if (elementCount >= (Math.pow(2, maxHeight))) {
-			maxHeight++;
-			head.add(null);
-		}
-		
-		return true;
-	}
-	
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean remove(Object o) {
-		
-		int idx = maxHeight - 1;
-		int remove = 0; // tracker for checking if we actually change the skiplist
-		ArrayList<SkipListSetItem> temp = new ArrayList<SkipListSetItem>(); // temp pointer
-		
-		temp = head;
-		
-		while (idx >= 0) { // i will represent the height we are at in the skiplist
-			
-			// If the element to the right is null, traverse down
-			if (temp.get(idx) == null) {
-				idx--;
-				continue;
-			}
-			
-			// If the element to the right is the val we are looking to remove, remove it and re-link the nodes to it's left to point to the right of the element we are removing
-			if (temp.get(idx).val.compareTo((T)o) == 0) {
-				remove = 1;
-				temp.set(idx, temp.get(idx).arr.get(idx));
-				idx--;
-				continue;
-			} 
-			
-			// If the element to the right is greater than the val we are looking for, traverse down
-			else if (temp.get(idx).val.compareTo((T)o) > 0 || temp.get(idx).val == null) {
-				idx--;
-				continue;
-			} 
-			
-			// If the element to the right is less than the val we are looking for, keep traversing right
-			else if (temp.get(idx).val.compareTo((T)o) < 0){
-				temp = temp.get(idx).arr;
-			}
-		}
-		
-		// If we've ever changed the skiplist (successfully removed something), decrement element_count and return true
-		if (remove == 1) {
-			elementCount--;
-			
-			// If the element_count is a power of 2 of the max_height - 1, that means we need to decrement max height and remove the last index of the head arraylist
-			if (elementCount <= Math.pow(2, maxHeight - 1) && maxHeight != 3) {
-				maxHeight--;
-				head.remove(maxHeight);
-			}
-			
-			return true;
-		}
-		
-		return false;
-	}
-
-	@Override
-	public boolean containsAll(Collection<?> c) {
-		
-		for (Object o : c) {
-			if(!contains(o))
-				return false;
-		} 
-		return true;
-	}
-
-	@Override
-	public boolean addAll(Collection<? extends T> c) {
-		boolean track = false;
-		
-		for (T e : c) {
-			if(add(e)) {
-				track = true;
-			}
-		}
-		return track;
-	}
-
-	@Override
-	public boolean retainAll(Collection<?> c) {
-
-		boolean track = false;
-		Iterator<T> iterator = iterator();
+    // iterator class
+    private class SkipListSetIterator<T extends Comparable<T>> implements Iterator<T>{
+        SkipListSetItem item;
 		T value;
 		
-		while (iterator.hasNext()) {
-			value = iterator.next();
-			if (!c.contains(value)) {
-				remove(value);
-				track = true;
-			}
-		}
-		
-		return track;
-	}
-
-	@Override
-	public boolean removeAll(Collection<?> c) {
-	boolean track = false;
-		
-		for (Object o : c) {
-			if(remove(o)) {
-				track = true;
-			}
-		}
-		return track;
-	}
-
-	@Override
-	public void clear() {
-		int i;
-		while (maxHeight - 1 >= 0) {
-			head.remove(maxHeight - 1);
-			maxHeight--;
-		}
-		
-		// Reset the initial vals of the skiplist
-		maxHeight = 3;
-		elementCount = 0;
-		
-		for (i = 0; i < maxHeight; i++) 
-			head.add(null);
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		return this.hashCode() == o.hashCode() ? true : false;
-	}
-	
-	@Override
-	public int hashCode() {
-		Iterator<T> iterator = iterator();
-		int sum = 0;
-		
-		while (iterator.hasNext()) {
-			sum += iterator.next().hashCode();
-		}
-		return sum;
-	}
-
-	@Override
-	public Comparator<? super T> comparator() {
-		return null;
-	}
-
-	@Override
-	public SortedSet<T> subSet(T fromElement, T toElement) {
-		try {
-	        throw new UnsupportedOperationException("Invalid operation for sorted list.");
-	    } catch (java.lang.UnsupportedOperationException e) {
-	        System.out.println("Invalid operation for sorted list.");
-	    }
-		return null;
-	}
-
-	@Override
-	public SortedSet<T> headSet(T toElement) {
-		try {
-	        throw new UnsupportedOperationException("Invalid operation for sorted list.");
-	    } catch (java.lang.UnsupportedOperationException e) {
-	        System.out.println("Invalid operation for sorted list.");
-	    }
-		return null;
-	}
-
-	@Override
-	public SortedSet<T> tailSet(T fromElement) {
-		try {
-	        throw new UnsupportedOperationException("Invalid operation for sorted list.");
-	    } catch (java.lang.UnsupportedOperationException e) {
-	        System.out.println("Invalid operation for sorted list.");
-	    }
-		return null;
-	}
-
-	@Override
-	public T first() {
-		
-		return head.get(0) == null ? null : head.get(0).val;
-	}
-
-	@Override
-	public T last() {
-		int i = maxHeight - 1;
-		T val = null;
-		ArrayList<SkipListSetItem> temp = new ArrayList<SkipListSetItem>(); // temp pointer
-		temp = head;
-		
-		while (i >= 0) { // i will represent the height we are at in the skiplist
-			
-			if (temp.get(i) == null) {
-				i--;
-				continue;
-			}
-			else {
-				val = temp.get(i).val;
-				temp = temp.get(i).arr;
-			}
-		}
-		return val;
-	}
-	
-	// Generates a height for a new item/node, 50% chance to be 1, 25% chance to be 2, etc.
-	public int generate_height () {
-		int height = 1;
-		Random rand = new Random();
-		boolean tf = rand.nextBoolean();
-		
-		while (tf == true && height < maxHeight) {
-			height++;
-			tf = rand.nextBoolean();
-		}
-		return height;
-	}
-	
-	public void reBalance() {
-
-		Iterator<T> it = iterator();
-		T val;
-		
-		while (it.hasNext()) {
-			val = it.next();
-			this.remove(val);
-			this.add(val);
-		}
-	}
-	
-	private class SkipListSetIterator<E extends Comparable<T>> implements Iterator<T> {
-
-		SkipListSetItem temp;
-		T val;
-		
 		public SkipListSetIterator () {
-			temp = head.get(0);
+			item = head.get(0);
 		}
 		
 		@Override
 		public boolean hasNext() {
-			if (temp == null)
-				return false;
-			
+			if (item == null) return false;
 			return true;
 		}
 
 		@Override
 		public T next() {
-			
-			val = temp.val;
-			temp = temp.arr.get(0);
-			return val;
+			value = (T)item.value;
+			item = item.arr.get(0);
+			return value;
 		}
 		
 		@Override
 		public void remove() {
-			if (val == null)
-				return;
+			if (value == null) return;
 			else {
-				SkipListSet.this.remove(val);
-				val = null;
+				SkipListSet.this.remove(value);
+				value = null;
 			}
 		}
+    }
+    
+    ArrayList <SkipListSetItem> head = new ArrayList<SkipListSetItem>();
+    // keep the maximum height of the list and ensure it is always one greater then the current height
+    private int maxHeight = 8;
+    // keep the count of the number of objects
+    private int objectCount = 0;
+
+    // constructor
+    public SkipListSet(){
+        // initalize the skiplist head
+        for(int i = 0; i < maxHeight; i++)
+            head.add(null);
+    }
+
+    // constructor
+    public SkipListSet(Collection<? extends T> c){
+        // initalize the skiplist head
+        for(int i = 0; i < maxHeight; i++)
+            head.add(null);
+
+        // add the collection elements into skip list
+        this.addAll(c);
+    }
+
+    @Override
+    public boolean add(T e) {
+        if(this.contains(e)) return false;
+
+        ArrayList<SkipListSetItem> temp = new ArrayList<>(); 
+        // create temp to traverse list
+        temp = head;
+        SkipListSetItem item = new SkipListSetItem(e);
+
+        int lvl = maxHeight - 1;
+        int result;
+
+        // traverse the list 
+        while(lvl >= 0){
+
+            // go down if right is null
+            if(temp.get(lvl) == null){
+                // link item level
+                if((item.height - 1) >= lvl){
+                    item.arr.set(lvl, temp.get(lvl));
+                    temp.set(lvl, item);
+                }
+                lvl--;
+                continue;
+            }
+
+            result = temp.get(lvl).value.compareTo(e);
+            // if right object is greater then item or overshoots
+            if(result > 0 || temp.get(lvl).value == null){
+                // link item level
+                if((item.height - 1) >= lvl){
+                    item.arr.set(lvl, temp.get(lvl));
+                    temp.set(lvl, item);
+                }
+
+                lvl--;
+                continue;
+            }
+            // move right if right object is less then item
+            else if(result < 0){
+                temp = temp.get(lvl).arr;
+            }
+        }
+        objectCount++;
+        // increase maxHeight if object count is greater
+        if(objectCount > (Math.pow(2, maxHeight))){
+            head.add(null);
+            maxHeight++;
+        }
+        
+        return true;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends T> c) {
+        boolean flag = true; 
+        // add all objects
+        for(T o : c)
+            if(!add(o)) flag = false;
+
+        return flag;
+    }
+
+
+    @Override
+    public void clear() {
+        int lvl = maxHeight - 1;
+        
+        // removing pointer to each level
+        while(lvl >= 0 )
+            head.remove(lvl--);
+
+        // re-initalize the skip list
+        maxHeight = 2;
+        objectCount = 0; 
+        for(int i = 0; i < maxHeight; i++)
+            head.add(null);
+    }
+
+    @Override
+    public Comparator<? super T> comparator() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean contains(Object o) {
+        ArrayList<SkipListSetItem> temp = new ArrayList<>(); 
+        // create temp to traverse list
+        temp = head;
+
+        int lvl = maxHeight - 1;
+        int result;
+
+        // traverse the list
+        while(lvl >= 0){
+            // right is null, go down
+            if(temp.get(lvl) == null){
+                lvl--;
+                continue;
+            }
+
+            result = temp.get(lvl).value.compareTo((T)o);
+            // overshoot, go down
+            if(result > 0 || temp.get(lvl).value == null){
+                lvl--;
+                continue;
+            }
+            // found
+            else if(result == 0)
+                return true;
+            // right object < o, move right
+            else if(result < 0)
+                temp = temp.get(lvl).arr;
+
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        boolean flag = true;
+        for(Object o : c)
+            if(!contains(o)) flag = false;
+        return flag;
+    }
+
+    @Override
+	public boolean equals(Object o) {
+        if(o == null && this != null)   return false;
+
+        if(this.hashCode() != o.hashCode()) return false;
+
+        if(this.getClass() != o.getClass()) return false;
+
+        if (this == o) return true;
+
+        return (this.containsAll((Collection<?>) o));   // FIXME
 	}
-	
-	class SkipListSetItem {
-		
-		ArrayList<SkipListSetItem> arr = new ArrayList<SkipListSetItem>();
-		
-		private T val;
-		private int height;
-		
-		public SkipListSetItem (T e) {
-			int i;
-			val = e;
-			height = generate_height();
-			
-			for (i = 0; i < height; i++) 
-				arr.add(null);
-			
-		}
+
+    @Override
+    public T first() {
+        if(head.get(0) == null) return null;
+        return head.get(0).value;
+    }
+
+    @Override
+    // FIXME - might change hashcode
+	public int hashCode() {
+		Iterator<T> iter = iterator();
+        T temp;
+        int hashCode = 0;
+
+        while(iter.hasNext()){
+            temp = iter.next();
+            hashCode += temp.hashCode();
+        }
+        
+        return hashCode;
 	}
+
+    @Override
+    public SortedSet<T> headSet(T toElement) {
+        throw new java.lang.UnsupportedOperationException("Exception: Unsupported Operation");
+    }
+
+    @Override
+    public boolean isEmpty() {
+        if(objectCount == 0) return true;
+        return false;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        SkipListSetIterator<T> iterate = new SkipListSetIterator<T>();
+        return iterate;
+    }
+
+    @Override
+    public T last() {
+        Iterator<T> iter = iterator();
+		T value = null;
+
+        while(iter.hasNext())
+            value = iter.next();
+        
+        return value;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean remove(Object o) {
+        if(!(this.contains(o))) return false;
+
+        ArrayList<SkipListSetItem> temp = new ArrayList<>(); 
+        // create temp to traverse list
+        temp = head;    
+
+        int lvl = maxHeight - 1;
+        int result;
+
+        // loop to traverse list
+        while(lvl >= 0){
+            // go down if right is null
+            if(temp.get(lvl) == null){
+                lvl--;
+                continue;
+            }
+            
+            result = temp.get(lvl).value.compareTo((T)o);
+            // go down if it overshoots
+            if(result > 0 || (temp.get(lvl).value == null)){
+                lvl--;
+                continue;
+            }
+            // remove and relink if found
+            else if(result == 0){
+                temp.set(lvl, temp.get(lvl).arr.get(lvl));
+                lvl--; 
+                continue;
+            }
+            // move right if right object is less then 0
+            else if(result < 0)
+                temp = temp.get(lvl).arr;
+        }
+
+        objectCount--; 
+        //=========================================================
+        // FIXME
+        // decrease maxHeight if under threshold
+        // if(maxHeight < (Math.pow(2, maxHeight)) && (maxHeight > 2))
+        //     head.remove(--maxHeight);
+        //=========================================================
+        return true;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        boolean flag = true; 
+        
+        for(Object o : c)
+            if(!remove(o)) flag = false;
+
+        return flag;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+		Iterator<T> iter = iterator();
+		T value;
+        boolean flag = false;
+
+        // remove value from list if it is not in c
+        while(iter.hasNext()){
+            value = iter.next();
+            if(!(c.contains(value))){
+                flag = true;
+                this.remove(value);
+            }
+        }
+
+        return flag;
+    }
+
+    @Override
+    public int size() {
+        return objectCount;
+    }
+
+    @Override
+    public SortedSet<T> subSet(T fromElement, T toElement) {
+        throw new java.lang.UnsupportedOperationException("Exception: Unsupported Operation");
+    }
+
+    @Override
+    public SortedSet<T> tailSet(T fromElement) {
+        throw new java.lang.UnsupportedOperationException("Exception: Unsupported Operation");
+    }
+
+    @Override
+    public Object[] toArray() {
+        Iterator<T> iter = iterator();
+        Object objArr[] = new Object[objectCount];
+
+        for(int i = 0; i < objectCount; i++){
+            objArr[i] = iter.next();
+        }
+
+        return objArr;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T[] toArray(T[] a) {
+        if (a.length < objectCount) {
+            Object objArr[] = new Object[size()];
+            objArr = toArray();
+            a = (T[]) objArr;
+        }
+        else if(a.length > objectCount){
+            a = (T[]) toArray();
+            a[objectCount] = null;
+        }
+        else{
+            a = (T[]) toArray();
+        }
+
+        return a;
+    }
+
+    // rebalance the tree by simply remove and re-add object again
+    public void reBalance(){
+        Iterator<T> iter = iterator();
+        T temp; 
+
+        // iterate through the list
+        while(iter.hasNext()){
+            temp = iter.next();
+            this.remove(temp);
+            this.add(temp);
+        }
+    }
+
+    // return a random height value
+    public int randHeight(){
+        Random rand = new Random();
+        boolean coin = rand.nextBoolean();
+        int height = 1; 
+
+        while(coin && (height < maxHeight)){
+            height++;
+            coin = rand.nextBoolean();
+        }
+
+        return height;
+    }
 
 }
